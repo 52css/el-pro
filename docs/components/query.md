@@ -8,43 +8,45 @@
 
 ```vue
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, toRefs } from "vue";
 
 // do not use same name with ref
 const form = reactive({
   name: "",
-  region: "",
-  date1: "",
-  date2: "",
-  delivery: false,
-  type: [],
-  resource: "",
-  desc: "",
+  a: "",
+  b: "",
+  c: "",
+  d: "",
+  e: "",
 });
 
-const onSubmit = () => {
-  console.log("submit!");
+const handleReset = () => {
+  console.log('reset')
+}
+
+const handleQuery = () => {
+  console.log("query", form);
 };
 </script>
 <template>
-  <el-pro-query :model="form" label-width="120px">
-    <el-form-item label="应用名称">
+  <el-pro-query :model="form" label-width="120px" @reset="handleReset" @query="handleQuery">
+    <el-form-item label="应用名称" prop="name">
       <el-input v-model="form.name" />
     </el-form-item>
-    <el-form-item label="创建时间">
-      <el-input v-model="form.name" />
+    <el-form-item label="创建时间" prop="a">
+      <el-input v-model="form.a" />
     </el-form-item>
-    <el-form-item label="应用状态">
-      <el-input v-model="form.name" />
+    <el-form-item label="应用状态" prop="b">
+      <el-input v-model="form.b" />
     </el-form-item>
-    <el-form-item label="响应日期">
-      <el-input v-model="form.name" />
+    <el-form-item label="响应日期" prop="c">
+      <el-input v-model="form.c" />
     </el-form-item>
-    <el-form-item label="创建时间">
-      <el-input v-model="form.name" />
+    <el-form-item label="创建时间" prop="d">
+      <el-input v-model="form.d" />
     </el-form-item>
-    <el-form-item label="结束时间">
-      <el-input v-model="form.name" />
+    <el-form-item label="结束时间" prop="e">
+      <el-input v-model="form.e" />
     </el-form-item>
   </el-pro-query>
 </template>
@@ -63,38 +65,40 @@ import { reactive } from "vue";
 // do not use same name with ref
 const form = reactive({
   name: "",
-  region: "",
-  date1: "",
-  date2: "",
-  delivery: false,
-  type: [],
-  resource: "",
-  desc: "",
+  a: "",
+  b: "",
+  c: "",
+  d: "",
+  e: "",
 });
 
-const onSubmit = () => {
-  console.log("submit!");
+const handleReset = () => {
+  console.log('reset')
+}
+
+const handleQuery = () => {
+  console.log("query", form);
 };
 </script>
 <template>
-  <el-pro-query :model="form" label-position="top">
-    <el-form-item label="应用名称">
+  <el-pro-query :model="form" label-position="top" @reset="handleReset" @query="handleQuery">
+    <el-form-item label="这是一个超级超级长的名称" prop="name">
       <el-input v-model="form.name" />
     </el-form-item>
-    <el-form-item label="创建时间">
-      <el-input v-model="form.name" />
+    <el-form-item label="创建时间" prop="a">
+      <el-input v-model="form.a" />
     </el-form-item>
-    <el-form-item label="应用状态">
-      <el-input v-model="form.name" />
+    <el-form-item label="应用状态" prop="b">
+      <el-input v-model="form.b" />
     </el-form-item>
-    <el-form-item label="响应日期">
-      <el-input v-model="form.name" />
+    <el-form-item label="响应日期" prop="c">
+      <el-input v-model="form.c" />
     </el-form-item>
-    <el-form-item label="创建时间">
-      <el-input v-model="form.name" />
+    <el-form-item label="创建时间" prop="d">
+      <el-input v-model="form.d" />
     </el-form-item>
-    <el-form-item label="结束时间">
-      <el-input v-model="form.name" />
+    <el-form-item label="结束时间" prop="e">
+      <el-input v-model="form.e" />
     </el-form-item>
   </el-pro-query>
 </template>

@@ -8,7 +8,8 @@ import {
   Ref,
   onUnmounted,
 } from "vue";
-import { ElForm, ElFormItem, ElButton, ElIcon } from "element-plus";
+import { ElForm, ElButton, ElIcon } from "element-plus";
+import type { FormInstance, FormRules } from 'element-plus'
 import { ArrowDown } from "@element-plus/icons-vue";
 import "./index.css";
 
@@ -95,18 +96,29 @@ function useChildren(elProQuery: Ref, slots: Slots) {
 
 export default defineComponent({
   name: 'ElProQuery',
-  setup(props, { slots, attrs }) {
+  emits: ['reset'],
+  setup(props, { slots, attrs, emit }) {
     const elProQuery = ref();
+    const ruleFormRef = ref<FormInstance>()
     const { node, moreNode } = useChildren(elProQuery, slots);
+    const handleReset = () => {
+      ruleFormRef.value?.resetFields()
+      emit('reset')
+    }
+    const handleQuery = () => {
+      ruleFormRef.value?.validate().then(() => {
+        emit('query')
+      })
+    }
     return () => (
       <div ref={elProQuery} class="el-pro-query">
-        <ElForm {...attrs} class="el-pro-query__form">
+        <ElForm ref={ruleFormRef} {...attrs} class="el-pro-query__form">
           <div>
             {node()}
           </div>
           <div class="el-pro-query__btn">
-            <ElButton type="default">重置</ElButton>
-            <ElButton type="primary">查询</ElButton>
+            <ElButton type="default" onClick={handleReset}>重置</ElButton>
+            <ElButton type="primary" onClick={handleQuery}>查询</ElButton>
             {moreNode()}
           </div>
         </ElForm>
