@@ -108,5 +108,10 @@ const handleQuery = () => {
 
 ## Query API
 
-同el-form https://element-plus.org/zh-CN/component/form.html#%E6%97%A0%E9%9A%9C%E7%A2%8D
+### Query Events
+
+| Name     | Description                             | Type  |
+|----------|-----------------------------------------|----------------------------------------|
+| reset | 重置 | () => void |
+| query | 查询 | () => void |
 

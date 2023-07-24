@@ -74,9 +74,11 @@ export interface Sortable {
 }
 
 export interface Fixed {
+  top?: number;
   header?: boolean;
   onHeaderFixed?: () => void;
   onHeaderUnfixed?: () => void;
+  bottom?: number;
   footer?: boolean;
   onFooterFixed?: () => void;
   onFooterUnfixed?: () => void;
@@ -390,38 +392,19 @@ function useSetting(toolbar: Toolbar) {
 }
 
 function useFixed(fixed: Fixed = {}, elProTable: Ref) {
-  const getScrollElement = (el: any, root = window) => {
-    let node = el;
-    const overflowScrollReg = /scroll|auto/i;
-    const rtv = [];
-
-    while (
-      node &&
-      node.tagName !== "HTML" &&
-      node.nodeType === 1 &&
-      node !== root
-    ) {
-      const { overflowY } = window.getComputedStyle(node);
-
-      if (overflowScrollReg.test(overflowY)) {
-        if (node.tagName !== "BODY") {
-          rtv.push(node);
-        }
-
-        // see: https://github.com/youzan/vant/issues/3823
-        const { overflowY: htmlOverflowY } = window.getComputedStyle(
-          node.parentNode
-        );
-
-        if (overflowScrollReg.test(htmlOverflowY)) {
-          rtv.push(node);
-        }
-      }
-      node = node.parentNode;
+  const getScrollElement = (node:any) => {
+    if (node == null) {
+      return window;
     }
 
-    // 需要返回最近的一个，el-main也是overflow：auto 但是没有滚动条，只有app-main才有滚动条
-    return rtv.length ? rtv[rtv.length - 1] : root;
+    if (node.scrollHeight > node.clientHeight) {
+      return node;
+    } else {
+      if (node.parentNode === document.body) {
+        return window
+      }
+      return getScrollElement(node.parentNode);
+    }
   };
   const getElementStyle = (
     element: HTMLElement,
@@ -455,23 +438,26 @@ function useFixed(fixed: Fixed = {}, elProTable: Ref) {
               );
             }, 0);
             const bodyWidth = getElementStyle(tableBodyElement, "width");
+            const top = fixed.top || 0;
+            const bottom = fixed.bottom || 0;
 
             if (fixed.header && tableHeaderElement) {
-              if (rect.top <= 0 && rect.bottom >= headerHeight) {
+              if (rect.top <= top && rect.bottom >= headerHeight + top) {
                 fixed.onHeaderFixed && fixed.onHeaderFixed();
                 // console.log("fixed-header", bodyWidth);
                 tableHeaderElement.style.position = "fixed";
                 tableHeaderElement.style.zIndex = `${maxZIndex}`;
-                tableHeaderElement.style.top = 0 + "px";
+                tableHeaderElement.style.top = top + "px";
                 tableHeaderElement.style.transition = "top .3s";
                 tableHeaderElement.style.width = bodyWidth;
                 tableInnerWrapperElement.style.marginTop =
                   tableHeaderElement.offsetHeight + "px";
               } else {
                 fixed.onHeaderUnfixed && fixed.onHeaderUnfixed();
+                tableHeaderElement.style.position = "static";
+                tableHeaderElement.style.zIndex = "auto";
                 tableHeaderElement.style.width = "auto";
                 tableInnerWrapperElement.style.marginTop = 0;
-                tableHeaderElement.style.position = "static";
               }
             }
 
@@ -481,25 +467,28 @@ function useFixed(fixed: Fixed = {}, elProTable: Ref) {
               if (
                 rect.top <=
                   scrollElement.innerHeight -
+                    top -
+                    bottom -
                     tableHeaderElement.offsetHeight -
                     paginationElement.offsetHeight &&
-                rect.bottom >= scrollElement.innerHeight + 12
+                rect.bottom >= scrollElement.innerHeight - top - bottom + 12
               ) {
                 fixed.onFooterFixed && fixed.onFooterFixed();
                 paginationElement.style.position = "fixed";
                 paginationElement.style.padding = "12px 0";
                 paginationElement.style.background = "#fff";
                 paginationElement.style.zIndex = `${maxZIndex}`;
-                paginationElement.style.bottom = 0;
+                paginationElement.style.bottom = `${bottom}px`;
                 paginationElement.style.transition = "bottom .3s";
                 paginationElement.style.width = bodyWidth;
                 tableInnerWrapperElement.style.marginBottom =
                   paginationElement.offsetHeight + "px";
               } else {
                 fixed.onFooterUnfixed && fixed.onFooterUnfixed();
-                paginationElement.style.width = "auto";
-                tableInnerWrapperElement.style.marginBottom = 0;
                 paginationElement.style.position = "static";
+                paginationElement.style.width = "auto";
+                paginationElement.style.zIndex = "auto";
+                tableInnerWrapperElement.style.marginBottom = 0;
               }
             }
 
@@ -509,9 +498,9 @@ function useFixed(fixed: Fixed = {}, elProTable: Ref) {
         ticking = true;
       };
       // scrollElementOnScroll
-      scrollElement.addEventListener("scroll", onScroll, false);
+      scrollElement.addEventListener("scroll", onScroll, true);
       onUnmounted(() => {
-        scrollElement.removeEventListener("scroll", onScroll, false);
+        scrollElement.removeEventListener("scroll", onScroll);
       });
 
       // tableElementResizeObserver

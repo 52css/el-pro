@@ -657,6 +657,7 @@ for (let index = 0; index < 49; index++) {
   <el-pro-table
     :data="tableData"
     :fixed="{
+      top: 49,
       header: true,
       footer: true,
     }"
@@ -735,9 +736,11 @@ export interface Sortable {
 }
 
 export interface Fixed {
+  top?: number;
   header?: boolean;
   onHeaderFixed?: () => void;
   onHeaderUnfixed?: () => void;
+  bottom?: number;
   footer?: boolean;
   onFooterFixed?: () => void;
   onFooterUnfixed?: () => void;
@@ -746,13 +749,13 @@ export interface Fixed {
 
 | 参数    | 说明   | 类型    | 可选值                                             | 默认值  |
 | ------- | ------ | ------- | -------------------------------------------------- | ------- |
-| data    | 数据列表   | Data[]  | —                               | `[]` |
-| rowSelection    | 选中(单选和多选)   | RowSelection  | — | `{selectedRowKeys: []}` |
-| pagination    | 分页   | Pagination  | — | `{pageSize: 10}` |
-| sortable    | 排序  | Sortable  | — | `{}` |
-| toolbar    | 操作按钮   | Toolbar  | — | `{}` |
-| title    | 标题   | string  | — | `''` |
-| fixed    | 固定   | Fixed  | — | `{}` |
+| data    | 数据列表   | `Data[]`  | —                               | `[]` |
+| rowSelection    | 选中(单选和多选)   | `RowSelection`  | — | `{selectedRowKeys: []}` |
+| pagination    | 分页   | `Pagination`  | — | `{pageSize: 10}` |
+| sortable    | 排序  | `Sortable`  | — | `{}` |
+| toolbar    | 操作按钮   | `Toolbar`  | — | `{}` |
+| title    | 标题   | `string`  | — | `''` |
+| fixed    | 固定   | `Fixed`  | — | `{}` |
 <!-- | type    | 类型   | string  | primary / success / warning / info / danger / text | primary | -->
 <!-- | loading | 加载中 | boolean | —                                                  | false   | -->
 
