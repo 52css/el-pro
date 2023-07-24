@@ -1,7 +1,5 @@
 .el-pro-query {
   position: relative;
-  display: flex;
-  flex-direction: column;
   box-sizing: border-box;
   width: 100%;
   margin: 0;
@@ -11,17 +9,13 @@
   padding: 24px;
 }
 .el-pro-query__form {
-  display: flex;
-  flex-wrap: wrap;
   position: relative;
 }
 .el-pro-query__btn {
-  position: absolute;
-  right: 12px;
-  bottom: 0;
+  text-align: right;
 }
 .el-pro-query__more {
-  display: flex;
+  display: inline-flex;
   gap: 4px;
   cursor: pointer;
   align-items: center;
@@ -33,4 +27,12 @@
 .el-pro-query__arrow--fan {
   margin-inline-start: 0.5em;
   transform: rotate(0.5turn);
+}
+/* 垂直 */
+.el-pro-query__form.el-form--label-top .el-pro-query__form-item {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.el-pro-query__form.el-form--label-top .el-pro-query__btn {
+  padding-top: 32px;
 }

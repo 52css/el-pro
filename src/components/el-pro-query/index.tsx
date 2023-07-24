@@ -53,6 +53,14 @@ function useChildren(elProQuery: Ref, slots: Slots) {
 
         hasMore.value = childIndex >= showCol;
 
+        return <div class="el-pro-query__form-item" style={{
+          display: childIndex >= showCol && !showMore.value ? "none" : "block",
+          float: "left",
+          width: `${pr}%`,
+        }}>
+          {child}
+        </div>
+
         return cloneVNode(child, {
           style: {
             display: childIndex >= showCol && !showMore.value ? "none" : "flex",
@@ -93,12 +101,14 @@ export default defineComponent({
     return () => (
       <div ref={elProQuery} class="el-pro-query">
         <ElForm {...attrs} class="el-pro-query__form">
-          {node()}
-          <ElFormItem class="el-pro-query__btn">
+          <div>
+            {node()}
+          </div>
+          <div class="el-pro-query__btn">
             <ElButton type="default">重置</ElButton>
             <ElButton type="primary">查询</ElButton>
             {moreNode()}
-          </ElFormItem>
+          </div>
         </ElForm>
       </div>
     );
