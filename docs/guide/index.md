@@ -1,7 +1,14 @@
-# Button 按钮
+# 指南
 
 ## 全局安装
 
 ```shell
-pnpm
+# npm
+npm install -S @52css/el-pro
+
+# yarn
+yarn add @52css/el-pro
+
+# pnpm
+pnpm add -S @52css/el-pro
 ```
