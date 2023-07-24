@@ -36,6 +36,10 @@ function getComponentsSidebar() {
           text: 'Query 查询',
           link: '/components/query',
         },
+        {
+          text: 'Table 表格',
+          link: '/components/table',
+        },
       ],
     },
   ]

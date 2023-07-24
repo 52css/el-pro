@@ -7,6 +7,7 @@ import './style.css'
 import ElProButton from '../../../src/components/el-pro-button/index.tsx'
 import ElProForm from '../../../src/components/el-pro-form/index.tsx'
 import ElProQuery from '../../../src/components/el-pro-query/index.tsx'
+import ElProTable from '../../../src/components/el-pro-table/index.tsx'
 import '../../../src/styles/index.css'
 
 export default {
@@ -18,5 +19,6 @@ export default {
     ctx.app.component(ElProButton.name, ElProButton)
     ctx.app.component(ElProForm.name, ElProForm)
     ctx.app.component(ElProQuery.name, ElProQuery)
+    ctx.app.component(ElProTable.name, ElProTable)
   }
 }
