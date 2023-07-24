@@ -87,7 +87,7 @@ const onSubmit = () => {
 
 :::
 
-## 支持分栏 + 标题
+## 支持分栏
 
 :::demo
 
@@ -113,7 +113,6 @@ const onSubmit = () => {
 </script>
 <template>
   <el-pro-form :model="form" label-width="120px">
-    <h3>基本信息（3栏目布局）</h3>
     <el-form-item label="Activity name" col="4">
       <el-input v-model="form.name" />
     </el-form-item>
@@ -132,7 +131,6 @@ const onSubmit = () => {
     <el-form-item label="Activity name" col="4">
       <el-input v-model="form.name" />
     </el-form-item>
-    <h3>扩展信息（4栏目布局）</h3>
     <el-form-item label="Activity name" col="3">
       <el-input v-model="form.name" />
     </el-form-item>
@@ -145,7 +143,6 @@ const onSubmit = () => {
     <el-form-item label="Activity name" col="3">
       <el-input v-model="form.name" />
     </el-form-item>
-    <h3>2等分（2栏布局）</h3>
     <el-form-item label="Activity name" col="6">
       <el-input v-model="form.name" />
     </el-form-item>
@@ -158,7 +155,9 @@ const onSubmit = () => {
 
 :::
 
-## ElFormItem Attributes
+## Form API
+
+### ElFormItem Attributes
 
 | 参数    | 说明   | 类型    | 可选值                                             | 默认值  |
 | ------- | ------ | ------- | -------------------------------------------------- | ------- |

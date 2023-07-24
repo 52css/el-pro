@@ -32,6 +32,10 @@ function getComponentsSidebar() {
           text: 'Form 表单',
           link: '/components/form',
         },
+        {
+          text: 'Query 查询',
+          link: '/components/query',
+        },
       ],
     },
   ]

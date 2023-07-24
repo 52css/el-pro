@@ -1,0 +1,36 @@
+.el-pro-query {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 24px;
+}
+.el-pro-query__form {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+}
+.el-pro-query__btn {
+  position: absolute;
+  right: 12px;
+  bottom: 0;
+}
+.el-pro-query__more {
+  display: flex;
+  gap: 4px;
+  cursor: pointer;
+  align-items: center;
+  margin-left: 8px;
+}
+.el-pro-query__arrow {
+  transition: all 0.3s ease 0s;
+}
+.el-pro-query__arrow--fan {
+  margin-inline-start: 0.5em;
+  transform: rotate(0.5turn);
+}
