@@ -137,7 +137,7 @@ function useCheckbox(rowSelection: RowSelection, dataSource: Ref<Data[]>) {
     onChange();
   };
   const node = rowSelection.type === "checkbox" && (
-    <ElTableColumn width="50" prop="id" fixed>
+    <ElTableColumn width="40" prop="id" fixed>
       {{
         header: () => (
           <ElCheckbox
@@ -181,7 +181,7 @@ function useRadio(rowSelection: RowSelection, dataSource: Ref<Data[]>) {
     onChange();
   };
   const node = rowSelection.type === "radio" && (
-    <ElTableColumn width="50" prop="id" fixed>
+    <ElTableColumn width="40" prop="id" fixed>
       {(scope: Scope) => (
         <ElRadio
           modelValue={radioId.value}
@@ -299,7 +299,7 @@ function useSortable(
     });
 
   const node = drag && (
-    <ElTableColumn width="30" fixed>
+    <ElTableColumn width="40" fixed>
       <ElIcon class="sortable-handle">
         <Menu />
       </ElIcon>

@@ -321,7 +321,7 @@ const handlePaginationCurrentChange = (val: number) => {
   <el-pro-table
     :data="tableData"
     :pagination="{
-      total: 100,
+      total: 24,
       onSizeChange: handlePaginationSizeChange,
       onCurrentChange: handlePaginationCurrentChange,
     }"

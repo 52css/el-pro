@@ -11,11 +11,8 @@
   padding: 24px;
   /* padding-top: 0; */
 }
-.el-pro-table table {
-  margin: 0 !important;
-}
-.el-pro-table tr {
-  border-top: none !important;
+.el-pro-table .el-radio__label {
+  padding-left: 0;
 }
 .el-pro-table .toolbar {
   display: flex;
@@ -51,4 +48,17 @@
   right: 0;
   left: 0;
   bottom: 0;
+}
+/* 修复vp-doc样式冲突 */
+.el-pro-table table {
+  margin: 0 !important;
+  table-layout: fixed !important;
+  border-collapse: separate !important;
+}
+.el-pro-table tr {
+  border-top: none !important;
+}
+.el-pro-table .el-pager {
+  padding-left: 0 !important;
+  margin: 0 !important;
 }
