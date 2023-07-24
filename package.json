@@ -2,20 +2,44 @@
   "name": "el-pro",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
+  "unpkg": "dist/index.min.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
     "docs:dev": "pnpm run register:components && vitepress dev docs",
     "docs:build": "pnpm run register:components && vitepress build docs --base /el-pro/",
     "docs:serve": "vitepress serve docs",
-    "register:components": "vitepress-rc"
+    "register:components": "vitepress-rc",
+    "build": "rollup -c"
   },
   "devDependencies": {
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "less": "^4.1.2",
     "prettier": "^2.7.1",
     "vitepress": "^1.0.0-beta.3",
-    "vitepress-theme-demoblock": "^3.0.3"
+    "vitepress-theme-demoblock": "^3.0.3",
+    "@babel/core": "^7.15.8",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^21.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.2",
+    "@rollup/plugin-typescript": "^8.2.5",
+    "@types/lodash-es": "^4.17.5",
+    "@types/marked": "^3.0.1",
+    "@vue/babel-plugin-jsx": "^1.1.1",
+    "gh-pages": "^3.2.3",
+    "highlight.js": "^11.2.0",
+    "marked": "^3.0.7",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.53.3",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.1",
+    "rollup-plugin-scss": "^3.0.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.42.1",
+    "tslib": "^2.3.0",
+    "typescript": "^4.4.3"
   },
   "engines": {
     "node": ">=16.0.0"
