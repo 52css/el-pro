@@ -1,40 +1,27 @@
-# Vitepress Demo
+# El Pro
 
-基于 [vitepress-theme-demoblock](https://github.com/52css/vitepress-theme-demoblock) 插件来实现 `Vue` 组件的支持。
+给element-plus加载组件
 
-- [x] Vue 组件
+## 按钮
 
-```js
-<demo-block>
-  <xl-button>默认按钮</xl-button>
-  <xl-button type="primary">主要按钮</xl-button>
-  <xl-button type="success">成功按钮</xl-button>
-  <xl-button type="info">信息按钮</xl-button>
-  <xl-button type="warning">警告按钮</xl-button>
-  <xl-button type="danger">危险按钮</xl-button>
-</demo-block>
-```
+* 支持防重点击
 
-![image](https://github.com/52css/el-pro/assets/22881872/13820eb2-c0fb-4cd8-95d0-8431782bb6ac)
+## form
 
+* 支持分栏
 
-- [x] Vue 代码自动渲染并且显示对应 Code
+## query
 
-:::demo
-```vue
-<template>
-  <xl-button>默认按钮</xl-button>
-  <xl-button type="primary">主要按钮</xl-button>
-  <xl-button type="success">成功按钮</xl-button>
-  <xl-button type="info">信息按钮</xl-button>
-  <xl-button type="warning">警告按钮</xl-button>
-  <xl-button type="danger">危险按钮</xl-button>
-</template>
-```
-:::
+* 支持搜索
 
-![el-pro-example](https://github.com/52css/el-pro/assets/22881872/67638b21-c995-4870-b5e7-fbdc85eddfea)
+## table
 
-
-
+* 左边、右边固定、固定最小宽度
+* 多选
+* 单选
+* 后端分页
+* 前端分页
+* 支持拖拽
+* 支持标题和toolbar
+* 支持固定头部和尾部
 
