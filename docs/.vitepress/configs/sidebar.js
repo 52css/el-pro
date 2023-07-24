@@ -28,6 +28,10 @@ function getComponentsSidebar() {
           text: 'Button 按钮',
           link: '/components/button',
         },
+        {
+          text: 'Form 表单',
+          link: '/components/form',
+        },
       ],
     },
   ]

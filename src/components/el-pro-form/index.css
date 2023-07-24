@@ -1,0 +1,28 @@
+.el-pro-form {
+  display: flex;
+  flex-wrap: wrap;
+}
+.el-pro-form h3 {
+  height: 32px;
+  line-height: 32px;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 10px 16px;
+  /* padding: 0 10px; */
+  border-bottom: 1px solid rgb(239, 242, 247);
+  position: relative;
+}
+.el-pro-form h3::before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  transform: translateY(-50%);
+  left: -10px;
+  height: 14px;
+  width: 4px;
+  background-color: #1890FF;
+  border-radius: 5px;
+}
+.el-pro-form .el-form-item__content {
+  max-width: 436px;
+}

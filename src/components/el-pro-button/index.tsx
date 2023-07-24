@@ -42,7 +42,6 @@ export default defineComponent({
     onClick: Function,
   },
   setup(props, { slots, attrs }) {
-    console.log('111', '11')
     const { loading, handleClick } = useClick(props.onClick);
     const children = slots && slots.default && slots.default();
     return () => (
