@@ -1,6 +1,6 @@
 {
-  "name": "el-pro",
-  "version": "1.0.0",
+  "name": "@52css/el-pro",
+  "version": "0.0.1",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
