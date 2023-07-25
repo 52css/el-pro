@@ -196,7 +196,7 @@ const onSubmit = () => {
 
 // false 不分栏
 // true 子根据父宽度自动分栏
-// number 设置指定的栏目
+// number 设置指定的栏目, 12格拆分
 export type Col = boolean | number
 ```
 

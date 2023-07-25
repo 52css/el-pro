@@ -10,7 +10,7 @@ export type Col = boolean | number
 const isNumber = (val: any) => typeof val === 'number' && !isNaN(val);
 
 function useChildren(slots: Slots, col: Col, elProForm: Ref) {
-  const defaultCol = ref(isNumber(col) ? col : 12);
+  const defaultCol = ref(col);
   const setCol = () => {
     const el = elProForm.value;
 
