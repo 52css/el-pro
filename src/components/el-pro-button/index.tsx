@@ -1,5 +1,5 @@
 import { ref, defineComponent } from "vue";
-import { ElButton } from "element-plus";
+import { ElButton, ElPopconfirm } from "element-plus";
 
 function useClick(onClick: any) {
   const loading = ref(false);
@@ -39,15 +39,30 @@ function useClick(onClick: any) {
 export default defineComponent({
   name: 'ElProButton',
   props: {
+    confirm: String,
+    onConfirm: Function,
+    onCancel: Function,
     onClick: Function,
   },
   setup(props, { slots, attrs }) {
     const { loading, handleClick } = useClick(props.onClick);
     const children = slots && slots.default && slots.default();
-    return () => (
+    const handleConfirm = (event: Event) => {
+      props?.onConfirm?.(event)
+    }
+    const handleCancel = (event: Event) => {
+      props?.onCancel?.(event)
+    }
+    return () => props.confirm ? 
+      <ElPopconfirm title={props.confirm} onConfirm={handleConfirm} onCancel={handleCancel}>
+        {{
+          reference: () => (<ElButton {...attrs} loading={loading.value} onClick={handleClick}>
+            {children}
+          </ElButton>)
+        }}
+      </ElPopconfirm> :
       <ElButton {...attrs} loading={loading.value} onClick={handleClick}>
         {children}
-      </ElButton>
-    );
+      </ElButton>;
   },
 });

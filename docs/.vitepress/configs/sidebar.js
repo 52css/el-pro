@@ -29,6 +29,10 @@ function getComponentsSidebar() {
           link: '/components/button',
         },
         {
+          text: 'ButtonGroup 按钮组',
+          link: '/components/button-group',
+        },
+        {
           text: 'Form 表单',
           link: '/components/form',
         },

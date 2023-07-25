@@ -26,13 +26,37 @@ const handleClick1 = async () => {
 
 :::
 
+## Popconfirm按钮
+
+如果是删除按钮，替换成Popconfirm
+
+:::demo
+
+```vue
+<script lang="ts" setup>
+</script>
+<template>
+  <el-pro-button confirm="你确定删除吗" @confirm="console.log('delete')">删除</el-pro-button>
+</template>
+```
+
+:::
+
 
 ## Button API
+
 ### Attributes
 
 | 参数    | 说明   | 类型    | 可选值                                             | 默认值  |
 | ------- | ------ | ------- | -------------------------------------------------- | ------- |
 | click    | 点击事件   | Async Function  | —                               | — |
+| confirm    | 操作确认   | string  | —                               | — |
 <!-- | type    | 类型   | string  | primary / success / warning / info / danger / text | primary | -->
 <!-- | loading | 加载中 | boolean | —                                                  | false   | -->
 
+### Events
+
+| Name     | Description                             | Type  |
+|----------|-----------------------------------------|----------------------------------------|
+| onConfirm | 确定事件 | () => void |
+| onCancel | 取消事件 | () => void |
