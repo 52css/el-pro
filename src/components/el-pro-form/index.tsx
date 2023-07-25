@@ -1,30 +1,64 @@
-import { defineComponent, cloneVNode, VNode, Slots } from "vue";
-import { ElForm } from "element-plus";
+import { defineComponent, cloneVNode, VNode, Slots, ref, Ref, onMounted, onUnmounted, PropType } from "vue";
+import { ElForm, ElCol } from "element-plus";
 import "./index.css";
 
-function useChildren(slots: Slots) {
-  return (
+// false 不分栏
+// true 子根据父宽度自动分栏
+// number 设置指定的栏目
+export type Col = boolean | number
+// js 判断是否为数字函数
+const isNumber = (val: any) => typeof val === 'number' && !isNaN(val);
+
+function useChildren(slots: Slots, col: Col, elProForm: Ref) {
+  const defaultCol = ref(isNumber(col) ? col : 12);
+  const setCol = () => {
+    const el = elProForm.value;
+
+    if (el.clientWidth >= 1380) {
+      defaultCol.value = 3;
+    } else if (el.clientWidth >= 1016) {
+      defaultCol.value = 4;
+    } else {
+      defaultCol.value = 6;
+    }
+  };
+
+  col === true && onMounted(() => {
+    const observer = new ResizeObserver(function () {
+      setCol();
+    });
+
+    observer.observe(elProForm.value?.$el);
+
+    onUnmounted(() => {
+      observer.disconnect();
+    });
+  });
+
+  return () => (
     slots &&
     slots.default &&
     slots.default().map((child: VNode) => {
-      const pr = (100 * (child?.props?.col || 12)) / 12;
-      return cloneVNode(child, {
-        style: {
-          maxWidth: `${pr}%`,
-          flex: `0 0 ${pr}%`,
-        },
-      });
+      const span = (child?.props?.col ?? defaultCol.value) * 2
+      return <ElCol span={span}>{child}</ElCol>;
     })
   );
 }
 
 export default defineComponent({
   name: 'ElProForm',
+  props: {
+    col: {
+      type: [Boolean, Number] as PropType<Col>,
+      default: 12
+    },
+  },
   setup(props, { slots, attrs }) {
-    const children = useChildren(slots);
+    const elProForm = ref(null);
+    const node = useChildren(slots, props.col, elProForm);
     return () => (
-      <ElForm {...attrs} class="el-pro-form">
-        {children}
+      <ElForm ref={elProForm} {...attrs} class="el-pro-form">
+        {node()}
       </ElForm>
     );
   },

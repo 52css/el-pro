@@ -91,7 +91,8 @@ const onSubmit = () => {
 
 ## 支持分栏
 
-通过设置col参数分栏数量
+* pro-form 设置 `col`，el-form-item 自动分栏
+* el-form-item 设置 `col` 优先级高于 `pro-form 的 col`
 
 :::demo
 
@@ -116,7 +117,19 @@ const onSubmit = () => {
 };
 </script>
 <template>
-  <el-pro-form :model="form" label-width="120px">
+  <el-pro-form :model="form" label-width="120px" col>
+    <el-form-item label="Activity name">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name">
+      <el-input v-model="form.name" />
+    </el-form-item>
     <el-form-item label="Activity name" col="3">
       <el-input v-model="form.name" />
     </el-form-item>
@@ -179,11 +192,23 @@ const onSubmit = () => {
 
 ## Form API
 
+```ts
+
+// false 不分栏
+// true 子根据父宽度自动分栏
+// number 设置指定的栏目
+export type Col = boolean | number
+```
+
+### Form Attributes
+
+| 参数    | 说明   | 类型    | 可选值                                             | 默认值  |
+| ------- | ------ | ------- | -------------------------------------------------- | ------- |
+| col    | 设置分栏目   | `Col`  | —                               | 12 |
+
 ### ElFormItem Attributes
 
 | 参数    | 说明   | 类型    | 可选值                                             | 默认值  |
 | ------- | ------ | ------- | -------------------------------------------------- | ------- |
-| col    | 设置栏目宽度   | number  | —                               | 12 |
-<!-- | type    | 类型   | string  | primary / success / warning / info / danger / text | primary | -->
-<!-- | loading | 加载中 | boolean | —                                                  | false   | -->
+| col    | 设置分栏目   | `Col`  | —                               | false |
 
