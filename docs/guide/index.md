@@ -37,6 +37,6 @@ app.mount('#app')
 <el-pro-button>这个是按钮</el-pro-button>
 ```
 
-## 效果
+## 效果1
 
 ![Alt text](image.png)
