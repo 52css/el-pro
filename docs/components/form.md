@@ -29,7 +29,7 @@ const onSubmit = () => {
 };
 </script>
 <template>
-   <el-pro-form :model="form" label-width="120px">
+  <el-pro-form :model="form" label-width="120px">
     <el-form-item label="Activity name">
       <el-input v-model="form.name" />
     </el-form-item>
@@ -117,22 +117,16 @@ const onSubmit = () => {
 </script>
 <template>
   <el-pro-form :model="form" label-width="120px">
-    <el-form-item label="Activity name" col="4">
+    <el-form-item label="Activity name" col="3">
       <el-input v-model="form.name" />
     </el-form-item>
-    <el-form-item label="Activity name" col="4">
+    <el-form-item label="Activity name" col="3">
       <el-input v-model="form.name" />
     </el-form-item>
-    <el-form-item label="Activity name" col="4">
+    <el-form-item label="Activity name" col="3">
       <el-input v-model="form.name" />
     </el-form-item>
-    <el-form-item label="Activity name" col="4">
-      <el-input v-model="form.name" />
-    </el-form-item>
-    <el-form-item label="Activity name" col="4">
-      <el-input v-model="form.name" />
-    </el-form-item>
-    <el-form-item label="Activity name" col="4">
+    <el-form-item label="Activity name" col="3">
       <el-input v-model="form.name" />
     </el-form-item>
     <el-form-item label="Activity name" col="3">
@@ -145,6 +139,30 @@ const onSubmit = () => {
       <el-input v-model="form.name" />
     </el-form-item>
     <el-form-item label="Activity name" col="3">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name" col="4">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name" col="4">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name" col="4">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name" col="4">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name" col="4">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name" col="4">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name" col="6">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Activity name" col="6">
       <el-input v-model="form.name" />
     </el-form-item>
     <el-form-item label="Activity name" col="6">
