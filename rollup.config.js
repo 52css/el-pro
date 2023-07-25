@@ -40,6 +40,7 @@ export default [
         globals
       }
     ],
+    external: ['vue', 'element-plus', 'sortablejs', '@element-plus/icons-vue'],
     // acornInjectPlugins: [jsx()],
     plugins: [
       external(),
