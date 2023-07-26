@@ -1,5 +1,6 @@
 import { defineComponent, cloneVNode, VNode, Slots, ref, Ref, onMounted, onUnmounted, PropType } from "vue";
 import { ElForm, ElCol } from "element-plus";
+import type { FormInstance, FormRules } from 'element-plus'
 import "./index.css";
 
 // false 不分栏
@@ -51,9 +52,25 @@ export default defineComponent({
       default: 12
     },
   },
-  setup(props, { slots, attrs }) {
-    const elProForm = ref(null);
+  setup(props, { slots, attrs, expose }) {
+    const elProForm = ref<FormInstance>();
     const node = useChildren(slots, props.col, elProForm);
+
+    // 表单校验
+    const validate = async () => {
+      if (!elProForm.value) return;
+      return await elProForm.value.validate();
+    };
+
+    // 表单重置
+    const resetFields = () => {
+      if (!elProForm.value) return;
+      elProForm.value.resetFields();
+    };
+
+    // 暴漏方法
+    expose({ validate, resetFields });
+
     return () => (
       <ElForm ref={elProForm} {...attrs} class="el-pro-form">
         {node()}
