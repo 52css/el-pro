@@ -125,8 +125,8 @@ export type Col = boolean | number
 
 ### Query Events
 
-| Name  | Description | Type       |
-|-------|-------------|------------|
-| reset | 重置        | () => void |
-| query | 查询        | () => void |
+| Name  | Description | Type         |
+|-------|-------------|--------------|
+| reset | 重置        | `() => void` |
+| query | 查询        | `() => void` |
 

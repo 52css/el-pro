@@ -334,10 +334,10 @@ export type ResetFieldsFn = (props?: Arrayable<FormItemProp> | undefined) => voi
 
 ### Form Exposes
 
-| Name          | Description                                                | Type              |
-|---------------|------------------------------------------------------------|-------------------|
-| validate      | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 | `validateFn`      |
-| resetFields   | 重置该表单项，将其值重置为初始值，并移除校验结果             | `ResetFieldsFn`   |
+| Name        | Description                                                | Type            |
+|-------------|------------------------------------------------------------|-----------------|
+| validate    | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 | `ValidateFn`    |
+| resetFields | 重置该表单项，将其值重置为初始值，并移除校验结果             | `ResetFieldsFn` |
 
 ### ElFormItem Attributes
 
