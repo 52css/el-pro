@@ -10,7 +10,7 @@
 
 ```vue
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 // do not use same name with ref
 const form = reactive({
@@ -23,13 +23,20 @@ const form = reactive({
   resource: "",
   desc: "",
 });
+const labelPosition = ref('right')
 
 const onSubmit = () => {
   console.log("submit!");
 };
 </script>
 <template>
-  <el-pro-form :model="form" label-width="120px">
+  <el-radio-group v-model="labelPosition" label="label position">
+    <el-radio-button label="left">Left</el-radio-button>
+    <el-radio-button label="right">Right</el-radio-button>
+    <el-radio-button label="top">Top</el-radio-button>
+  </el-radio-group>
+  <div style="margin: 20px" />
+  <el-pro-form :model="form" label-width="120px" :label-position="labelPosition">
     <el-form-item label="Activity name">
       <el-input v-model="form.name" />
     </el-form-item>
@@ -98,7 +105,7 @@ const onSubmit = () => {
 
 ```vue
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 // do not use same name with ref
 const form = reactive({
@@ -111,13 +118,20 @@ const form = reactive({
   resource: "",
   desc: "",
 });
+const labelPosition = ref('right')
 
 const onSubmit = () => {
   console.log("submit!");
 };
 </script>
 <template>
-  <el-pro-form :model="form" label-width="120px" col>
+  <el-radio-group v-model="labelPosition" label="label position">
+    <el-radio-button label="left">Left</el-radio-button>
+    <el-radio-button label="right">Right</el-radio-button>
+    <el-radio-button label="top">Top</el-radio-button>
+  </el-radio-group>
+  <div style="margin: 20px" />
+  <el-pro-form :model="form" :label-position="labelPosition" label-width="120px" col>
     <el-form-item label="Activity name">
       <el-input v-model="form.name" />
     </el-form-item>

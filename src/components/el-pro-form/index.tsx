@@ -38,7 +38,7 @@ function useChildren(slots: Slots, col: Col, elProForm: Ref) {
     slots.default &&
     slots.default().map((child: VNode) => {
       const span = (child?.props?.col ?? defaultCol.value) * 2
-      return <ElCol span={span}>{child}</ElCol>;
+      return <ElCol span={span} class="el-pro-form__item">{child}</ElCol>;
     })
   );
 }
