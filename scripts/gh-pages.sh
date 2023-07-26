@@ -3,8 +3,14 @@
 # 确保脚本抛出遇到的错误
 set -e
 
+# 生成类库
+pnpm run build
+
+# 发布到npmjs
+pnpm publish --access public --no-git-checks
+
 # 生成静态文件
-yarn run docs:build
+pnpm run docs:build
 
 # 进入生成的文件夹
 cd ../docs/.vitepress/dist

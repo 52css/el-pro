@@ -315,25 +315,33 @@ const onSubmit = () => {
 // true 子根据父宽度自动分栏
 // number 设置指定的栏目, 12格拆分
 export type Col = boolean | number
+export type ColFn = (col: number, el: HTMLElement) => void
+export type ValidateFn = (callback?: FormValidateCallback) => Promise<void>
+export type ResetFieldsFn = (props?: Arrayable<FormItemProp> | undefined) => void
 ```
 
 ### Form Attributes
 
-| 参数    | 说明   | 类型    | 可选值                                             | 默认值  |
-| ------- | ------ | ------- | -------------------------------------------------- | ------- |
-| col    | 设置分栏目   | `Col`  | —                               | 12 |
+| 参数 | 说明       | 类型  | 可选值 | 默认值 |
+|------|----------|-------|--------|--------|
+| col  | 设置分栏目 | `Col` | —      | 12     |
 
-### Form Events
+### Form Event
 
-| Name     | Description                             | Type  |
-|----------|-----------------------------------------|----------------------------------------|
-| validate | 校验 | () => void |
-| resetFields | 重置表单 | () => void |
+| Name | Description | Type    |
+|------|-------------|---------|
+| col  | 设置col值   | `ColFn` |
 
+### Form Exposes
+
+| Name          | Description                                                | Type              |
+|---------------|------------------------------------------------------------|-------------------|
+| validate      | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 | `validateFn`      |
+| resetFields   | 重置该表单项，将其值重置为初始值，并移除校验结果             | `ResetFieldsFn`   |
 
 ### ElFormItem Attributes
 
-| 参数    | 说明   | 类型    | 可选值                                             | 默认值  |
-| ------- | ------ | ------- | -------------------------------------------------- | ------- |
-| col    | 设置分栏目   | `Col`  | —                               | false |
+| 参数 | 说明       | 类型  | 可选值 | 默认值 |
+|------|----------|-------|--------|--------|
+| col  | 设置分栏目 | `Col` | —      | false  |
 

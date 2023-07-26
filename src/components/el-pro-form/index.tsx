@@ -1,4 +1,4 @@
-import { defineComponent, cloneVNode, VNode, Slots, ref, Ref, onMounted, onUnmounted, PropType } from "vue";
+import { defineComponent, cloneVNode, VNode, Slots, ref, Ref, onMounted, onUnmounted, PropType, toRefs } from "vue";
 import { ElForm, ElCol } from "element-plus";
 import type { FormInstance, FormRules } from 'element-plus'
 import "./index.css";
@@ -8,10 +8,10 @@ import "./index.css";
 // number 设置指定的栏目
 export type Col = boolean | number
 
-function useChildren(slots: Slots, col: Col, elProForm: Ref) {
+function useChildren(slots: Slots, col: Col, elProForm: Ref, emit: (event: 'col', ...args: any[]) => void) {
   const defaultCol = ref(col);
   const setCol = () => {
-    const el = elProForm.value;
+    const el = elProForm.value?.$el;
 
     if (el.clientWidth >= 1380) {
       defaultCol.value = 3;
@@ -20,32 +20,35 @@ function useChildren(slots: Slots, col: Col, elProForm: Ref) {
     } else {
       defaultCol.value = 6;
     }
+    emit('col', defaultCol.value, elProForm.value?.$el)
   };
 
-  col === true && onMounted(() => {
-    const observer = new ResizeObserver(function () {
-      setCol();
+  if (col === true) {
+    onMounted(() => {
+      const observer = new ResizeObserver(function () {
+        setCol();
+      });
+
+      observer.observe(elProForm.value?.$el);
+
+      onUnmounted(() => {
+        observer.disconnect();
+      });
     });
+  } else {
+    emit('col', col, elProForm.value?.$el)
+  }
 
-    observer.observe(elProForm.value?.$el);
 
-    onUnmounted(() => {
-      observer.disconnect();
-    });
-  });
-
-  return {
-    defaultCol,
-    node: () => (
-      slots &&
-      slots.default &&
-      slots.default().map((child: VNode) => {
-        const span = (child?.props?.col ?? defaultCol.value) * 2
-        const width = 24 / span * 100 + '%'
-        return <ElCol span={span} class="el-pro-form__item" style={{ width }}>{child}</ElCol>;
-      })
-    )
-  };
+  return () => (
+    slots &&
+    slots.default &&
+    slots.default().map((child: VNode) => {
+      const span = (child?.props?.col ?? defaultCol.value) * 2
+      const width = 24 / span * 100 + '%'
+      return <ElCol span={span} class="el-pro-form__item" style={{ width }}>{child}</ElCol>;
+    })
+  );
 }
 
 export default defineComponent({
@@ -56,9 +59,10 @@ export default defineComponent({
       default: 12
     },
   },
-  setup(props, { slots, attrs, expose }) {
+  emits: ['col'],
+  setup(props, { slots, attrs, expose, emit }) {
     const elProForm = ref<FormInstance>();
-    const {defaultCol, node} = useChildren(slots, props.col, elProForm);
+    const node = useChildren(slots, props.col, elProForm, emit);
 
     // 表单校验
     const validate = async () => {
@@ -73,7 +77,10 @@ export default defineComponent({
     };
 
     // 暴漏方法
-    expose({ validate, resetFields, defaultCol });
+    expose({
+      validate,
+      resetFields
+    });
 
     return () => (
       <ElForm ref={elProForm} {...attrs} class="el-pro-form">

@@ -32,6 +32,7 @@ export default defineComponent({
     const elProQuery = ref<FormInstance>();
     const hasMore = ref(false);
     const showMore = ref(false);
+    const showIndex = ref(-1)
     // const { node, moreNode } = useChildren(slots,props.col, elProQuery);
     const handleReset = () => {
       elProQuery.value?.resetFields()
@@ -42,23 +43,19 @@ export default defineComponent({
         emit('query')
       })
     }
+    const handleCol = (col:number, el: HTMLElement) => {
+      showIndex.value = props.line * (12 / col) - 1;
+      hasMore.value = el.children.length >= showIndex.value;
+    }
     return () => (
       <div class="el-pro-query">
-        <ElProForm ref={elProQuery} col={props.col} {...attrs} class="el-pro-query__form">
+        <ElProForm ref={elProQuery} col={props.col} {...attrs} class="el-pro-query__form" onCol={handleCol}>
           {{default: () => slots.default && slots.default().map((child: VNode, childIndex) => {
-            const col = elProQuery.value?.defaultCol || 12;
-            const showIndex = props.line * (12 / col) - 1;
-
-            hasMore.value = childIndex >= showIndex;
-
-            if (childIndex >= showIndex && !showMore.value) {
+            if (childIndex >= showIndex.value && !showMore.value) {
               return null;
             }
 
             return child
-
-            // console.log('childIndex', childIndex, elProQuery.value?.defaultCol)
-            // return child
           })}}
         </ElProForm>
         <div class="el-pro-query__btn">
