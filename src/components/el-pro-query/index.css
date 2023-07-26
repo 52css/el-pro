@@ -16,6 +16,7 @@
 }
 .el-pro-query__more {
   display: inline-flex;
+  font-size: 14px;
   gap: 4px;
   cursor: pointer;
   align-items: center;

@@ -6,8 +6,6 @@ import "./index.css";
 // true 子根据父宽度自动分栏
 // number 设置指定的栏目
 export type Col = boolean | number
-// js 判断是否为数字函数
-const isNumber = (val: any) => typeof val === 'number' && !isNaN(val);
 
 function useChildren(slots: Slots, col: Col, elProForm: Ref) {
   const defaultCol = ref(col);

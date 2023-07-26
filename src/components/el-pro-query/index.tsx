@@ -96,7 +96,7 @@ function useChildren(elProQuery: Ref, slots: Slots) {
 
 export default defineComponent({
   name: 'ElProQuery',
-  emits: ['reset'],
+  emits: ['reset', 'query'],
   setup(props, { slots, attrs, emit }) {
     const elProQuery = ref();
     const ruleFormRef = ref<FormInstance>()
