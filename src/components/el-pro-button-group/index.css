@@ -1,6 +1,9 @@
 .el-pro-button-group {
   position: relative;
 }
+.el-pro-button-group__btn {
+  display: inline-block;
+}
 .el-pro-button-group__arrow {
   margin: 8px;
   display: flex;

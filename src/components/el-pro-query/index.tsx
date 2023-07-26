@@ -45,7 +45,7 @@ export default defineComponent({
     return () => (
       <div class="el-pro-query">
         <ElProForm ref={elProQuery} col={props.col} {...attrs} class="el-pro-query__form">
-          {{default: slots.default && slots.default().map((child: VNode, childIndex) => {
+          {{default: () => slots.default && slots.default().map((child: VNode, childIndex) => {
             const col = elProQuery.value?.defaultCol || 12;
             const showIndex = props.line * (12 / col) - 1;
 

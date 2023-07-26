@@ -28,10 +28,10 @@ function getComponentsSidebar() {
           text: 'Button 按钮',
           link: '/components/button',
         },
-        {
-          text: 'ButtonGroup 按钮组',
-          link: '/components/button-group',
-        },
+        // {
+        //   text: 'ButtonGroup 按钮组',
+        //   link: '/components/button-group',
+        // },
         {
           text: 'Form 表单',
           link: '/components/form',

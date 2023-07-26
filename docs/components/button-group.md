@@ -14,6 +14,9 @@
     <el-pro-button type="text" @click="console.log('edit')">编辑</el-pro-button>
     <el-pro-button type="text" disabled>禁用</el-pro-button>
     <el-pro-button type="text" confirm="你确定删除吗" @confirm="console.log('delete')">删除</el-pro-button>
+    <el-pro-button type="text" @click="console.log('edit')">编辑</el-pro-button>
+    <el-pro-button type="text" disabled>禁用</el-pro-button>
+    <el-pro-button type="text" confirm="你确定删除吗" @confirm="console.log('delete')">删除</el-pro-button>
   </el-pro-button-group>
 </template>
 ```

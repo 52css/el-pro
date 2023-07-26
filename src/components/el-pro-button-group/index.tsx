@@ -6,22 +6,22 @@ import {
 
 import './index.css';
 
-function useChildren(slots: Slots, elProButtonGroup: Ref) {
-  const children = slots && slots.default && slots.default();
+// function useChildren(slots: Slots, elProButtonGroup: Ref) {
+//   const children = slots && slots.default && slots.default();
 
-  onMounted(() => {
-    console.log('elProButtonGroup', elProButtonGroup.value.clientWidth)
-    console.log('children', children)
-    children?.forEach((child) => {
-      console.log('child', child?.el)
-    })
-  })
+//   onMounted(() => {
+//     console.log('elProButtonGroup', elProButtonGroup.value.clientWidth)
+//     console.log('children', children)
+//     children?.forEach((child) => {
+//       console.log('child', child?.el)
+//     })
+//   })
 
-  return {
-    leftNode: () => children,
-    rightNode: () => []
-  }
-}
+//   return {
+//     leftNode: () => children,
+//     rightNode: () => []
+//   }
+// }
 
 export default defineComponent({
   name: 'ElProButtonGroup',
@@ -29,14 +29,16 @@ export default defineComponent({
   },
   setup(props, { slots, attrs }) {
     const elProButtonGroup = ref()
-    const { leftNode, rightNode } = useChildren(slots, elProButtonGroup)
+    // const { leftNode, rightNode } = useChildren(slots, elProButtonGroup)
     // const children = slots && slots.default && slots.default();
     // children?.forEach((child) => {
     //   console.log('child', child)
     // })
     return () => (
       <div ref={elProButtonGroup} class="el-pro-button-group">
-        {leftNode()}
+        <div class="el-pro-button-group__btn">
+          {{default: slots.default}}
+        </div>
         <ElDropdown>
           {{
             default: () => (<div class="el-pro-button-group__arrow">
@@ -45,7 +47,7 @@ export default defineComponent({
               </ElIcon>
             </div>),
             dropdown: () => (<ElDropdownMenu>
-              {rightNode().map(x => <ElDropdownItem>{x}</ElDropdownItem>)}
+              {/* {rightNode().map(x => <ElDropdownItem>{x}</ElDropdownItem>)} */}
             </ElDropdownMenu>)
           }}
         </ElDropdown>
