@@ -108,6 +108,20 @@ const handleQuery = () => {
 
 ## Query API
 
+```ts
+
+// false 不分栏
+// true 子根据父宽度自动分栏
+// number 设置指定的栏目, 12格拆分
+export type Col = boolean | number
+```
+
+### Query Attributes
+
+| 参数    | 说明   | 类型    | 可选值                                             | 默认值  |
+| ------- | ------ | ------- | -------------------------------------------------- | ------- |
+| col    | 设置分栏目   | `Col`  | —                               | true |
+
 ### Query Events
 
 | Name     | Description                             | Type  |

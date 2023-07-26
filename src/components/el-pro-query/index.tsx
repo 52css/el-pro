@@ -7,33 +7,37 @@ import {
   onMounted,
   Ref,
   onUnmounted,
+  PropType,
 } from "vue";
 import { ElForm, ElButton, ElIcon } from "element-plus";
 import type { FormInstance, FormRules } from 'element-plus'
 import { ArrowDown } from "@element-plus/icons-vue";
 import "./index.css";
 
-function useChildren(elProQuery: Ref, slots: Slots) {
-  const col = ref(4);
+// false 不分栏
+// true 子根据父宽度自动分栏
+// number 设置指定的栏目
+export type Col = boolean | number
+
+function useChildren(slots: Slots, col: Col, elProQuery: Ref) {
+  const defaultCol = ref(col);
   const line = 1;
   const hasMore = ref(false);
   const showMore = ref(false);
   const setCol = () => {
-    let count;
     const el = elProQuery.value;
 
     if (el.clientWidth >= 1380) {
-      count = 4;
+      defaultCol.value = 3;
     } else if (el.clientWidth >= 1016) {
-      count = 3;
+      defaultCol.value = 4;
     } else {
-      count = 2;
+      defaultCol.value = 6;
     }
-
-    col.value = 12 / count;
   };
+
   // 页面监控变化取得col值
-  onMounted(() => {
+  col === true && onMounted(() => {
     const observer = new ResizeObserver(function () {
       setCol();
     });
@@ -44,31 +48,25 @@ function useChildren(elProQuery: Ref, slots: Slots) {
       observer.disconnect();
     });
   });
+
   return {
     node: () =>
       slots &&
       slots.default &&
       slots.default().map((child: VNode, childIndex) => {
-        const showCol = line * (12 / col.value) - 1;
-        const pr = (100 * (child?.props?.col || col.value)) / 12;
+        const halfSpan = (child?.props?.col ?? defaultCol.value)
+        const showIndex = line * (12 / halfSpan) - 1;
+        const pr = (100 * halfSpan) / 12;
 
-        hasMore.value = childIndex >= showCol;
+        hasMore.value = childIndex >= showIndex;
 
         return <div class="el-pro-query__form-item" style={{
-          display: childIndex >= showCol && !showMore.value ? "none" : "block",
+          display: childIndex >= showIndex && !showMore.value ? "none" : "block",
           float: "left",
           width: `${pr}%`,
         }}>
           {child}
         </div>
-
-        return cloneVNode(child, {
-          style: {
-            display: childIndex >= showCol && !showMore.value ? "none" : "flex",
-            maxWidth: `${pr}%`,
-            flex: `0 0 ${pr}%`,
-          },
-        });
       }),
     col,
     hasMore,
@@ -97,9 +95,15 @@ function useChildren(elProQuery: Ref, slots: Slots) {
 export default defineComponent({
   name: 'ElProQuery',
   emits: ['reset', 'query'],
+  props: {
+    col: {
+      type: [Boolean, Number] as PropType<Col>,
+      default: true
+    },
+  },
   setup(props, { slots, attrs, emit }) {
     const elProQuery = ref<FormInstance>();
-    const { node, moreNode } = useChildren(elProQuery, slots);
+    const { node, moreNode } = useChildren(slots,props.col, elProQuery);
     const handleReset = () => {
       elProQuery.value?.resetFields()
       emit('reset')
