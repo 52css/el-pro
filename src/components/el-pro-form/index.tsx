@@ -34,14 +34,18 @@ function useChildren(slots: Slots, col: Col, elProForm: Ref) {
     });
   });
 
-  return () => (
-    slots &&
-    slots.default &&
-    slots.default().map((child: VNode) => {
-      const span = (child?.props?.col ?? defaultCol.value) * 2
-      return <ElCol span={span} class="el-pro-form__item">{child}</ElCol>;
-    })
-  );
+  return {
+    defaultCol,
+    node: () => (
+      slots &&
+      slots.default &&
+      slots.default().map((child: VNode) => {
+        const span = (child?.props?.col ?? defaultCol.value) * 2
+        const width = 24 / span * 100 + '%'
+        return <ElCol span={span} class="el-pro-form__item" style={{ width }}>{child}</ElCol>;
+      })
+    )
+  };
 }
 
 export default defineComponent({
@@ -54,7 +58,7 @@ export default defineComponent({
   },
   setup(props, { slots, attrs, expose }) {
     const elProForm = ref<FormInstance>();
-    const node = useChildren(slots, props.col, elProForm);
+    const {defaultCol, node} = useChildren(slots, props.col, elProForm);
 
     // 表单校验
     const validate = async () => {
@@ -69,7 +73,7 @@ export default defineComponent({
     };
 
     // 暴漏方法
-    expose({ validate, resetFields });
+    expose({ validate, resetFields, defaultCol });
 
     return () => (
       <ElForm ref={elProForm} {...attrs} class="el-pro-form">

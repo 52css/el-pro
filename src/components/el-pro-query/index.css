@@ -8,6 +8,12 @@
   border-radius: 2px;
   padding: 24px;
 }
+.el-pro-query__form {
+  display: block;
+}
+.el-pro-query .el-pro-form__item {
+  float: left;
+}
 .el-pro-query__btn {
   text-align: right;
 }
@@ -26,11 +32,6 @@
   margin-inline-start: 0.5em;
   transform: rotate(0.5turn);
 }
-/* 垂直 */
-.el-pro-query.el-form--label-top .el-pro-query__form-item {
-  padding-left: 12px;
-  padding-right: 12px;
-}
-.el-pro-query.el-form--label-top .el-pro-query__btn {
+.el-pro-query__form.el-form--label-top + .el-pro-query__btn {
   padding-top: 32px;
 }
