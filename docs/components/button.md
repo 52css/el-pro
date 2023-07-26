@@ -37,6 +37,7 @@ const handleClick1 = async () => {
 </script>
 <template>
   <el-pro-button confirm="你确定删除吗" @confirm="console.log('delete')">删除</el-pro-button>
+  <el-pro-button link type="primary" confirm="你确定删除吗" @confirm="console.log('delete')">删除</el-pro-button>
 </template>
 ```
 

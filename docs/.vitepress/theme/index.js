@@ -8,10 +8,10 @@ import ElProButton from '../../../src/components/el-pro-button/index.tsx'
 import ElProForm from '../../../src/components/el-pro-form/index.tsx'
 import ElProQuery from '../../../src/components/el-pro-query/index.tsx'
 import ElProTable from '../../../src/components/el-pro-table/index.tsx'
-import ElProButtonGroup from '../../../src/components/el-pro-button-group/index.tsx'
+import ElProOperation from '../../../src/components/el-pro-operation/index.tsx'
 import '../../../src/styles/index.css'
 
-const components = [ElProButton, ElProForm, ElProQuery, ElProTable, ElProButtonGroup]
+const components = [ElProButton, ElProForm, ElProQuery, ElProTable, ElProOperation]
 
 export default {
   ...DefaultTheme,

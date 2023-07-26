@@ -1,11 +1,12 @@
-.el-pro-button-group {
+.el-pro-operation {
   position: relative;
+  display: flex;
 }
-.el-pro-button-group__btn {
+.el-pro-operation__btn {
   display: inline-block;
 }
-.el-pro-button-group__arrow {
-  margin: 8px;
+.el-pro-operation__arrow {
+  padding: 5px 8px;
   display: flex;
   align-items: center;
   justify-content: center;

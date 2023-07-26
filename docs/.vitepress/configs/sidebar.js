@@ -28,10 +28,6 @@ function getComponentsSidebar() {
           text: 'Button 按钮',
           link: '/components/button',
         },
-        // {
-        //   text: 'ButtonGroup 按钮组',
-        //   link: '/components/button-group',
-        // },
         {
           text: 'Form 表单',
           link: '/components/form',
@@ -43,6 +39,10 @@ function getComponentsSidebar() {
         {
           text: 'Table 表格',
           link: '/components/table',
+        },
+        {
+          text: 'Operation 操作',
+          link: '/components/operation',
         },
       ],
     },
