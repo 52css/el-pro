@@ -9,9 +9,10 @@ import ElProForm from '../../../src/components/el-pro-form/index.tsx'
 import ElProQuery from '../../../src/components/el-pro-query/index.tsx'
 import ElProTable from '../../../src/components/el-pro-table/index.tsx'
 import ElProOperation from '../../../src/components/el-pro-operation/index.tsx'
+import ElProStatus from '../../../src/components/el-pro-status/index.tsx'
 import '../../../src/styles/index.css'
 
-const components = [ElProButton, ElProForm, ElProQuery, ElProTable, ElProOperation]
+const components = [ElProButton, ElProForm, ElProQuery, ElProTable, ElProOperation, ElProStatus]
 
 export default {
   ...DefaultTheme,

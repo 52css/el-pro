@@ -44,6 +44,10 @@ function getComponentsSidebar() {
           text: 'Operation 操作',
           link: '/components/operation',
         },
+        {
+          text: 'Status 状态',
+          link: '/components/status',
+        },
       ],
     },
   ]
