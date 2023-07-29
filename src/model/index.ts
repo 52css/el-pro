@@ -8,7 +8,7 @@ import { EmailModel } from './email-model'
 import { PhoneModel } from './phone-model'
 import { WebModel } from './web-model'
 
-export type Model =
+export type ModelItem =
   | TextModel
   | BooleanModel
   | DigitModel
