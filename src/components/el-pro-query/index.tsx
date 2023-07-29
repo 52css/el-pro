@@ -4,6 +4,7 @@ import {
   VNode,
   PropType,
   Comment,
+  nextTick,
 } from "vue";
 import ElProForm from '../el-pro-form'
 import { ElForm, ElButton, ElIcon } from "element-plus";
@@ -33,7 +34,8 @@ export default defineComponent({
     const elProQuery = ref<FormInstance>();
     const hasMore = ref(false);
     const showMore = ref(false);
-    const showIndex = ref(-1)
+    const showIndex = ref(-1);
+    const defaultCol = ref()
     // const { node, moreNode } = useChildren(slots,props.col, elProQuery);
     const handleReset = () => {
       elProQuery.value?.resetFields()
@@ -45,6 +47,7 @@ export default defineComponent({
       })
     }
     const handleCol = (col:number) => {
+      defaultCol.value = col
       showIndex.value = props.line * (12 / col) - 1;
       const childrenLength = slots.default && slots.default().filter(x => x.type !== Comment).length || 0
       hasMore.value = childrenLength > showIndex.value;
@@ -53,6 +56,12 @@ export default defineComponent({
       <div class="el-pro-query">
         <ElProForm ref={elProQuery} col={props.col} {...attrs} class="el-pro-query__form" onCol={handleCol}>
           {{default: () => slots.default && slots.default().map((child: VNode, childIndex) => {
+            // console.log('child', child)
+            if (childIndex === 0) {
+              nextTick(() => {
+                defaultCol.value && handleCol(defaultCol.value)
+              })
+            }
             if (childIndex >= showIndex.value && !showMore.value) {
               return null;
             }
