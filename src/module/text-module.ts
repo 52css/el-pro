@@ -1,6 +1,6 @@
-import { BaseField } from './base-field'
+import { BaseModule } from './base-module'
 
-export interface TextField extends BaseField {
+export interface TextModule extends BaseModule {
   数据类型: '文本'
   格式: '单行文本' | '多行文本'
   最小长度?: number

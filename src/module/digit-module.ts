@@ -1,6 +1,6 @@
-import { BaseField } from './base-field'
+import { BaseModule } from './base-module'
 
-export interface DigitField extends BaseField {
+export interface DigitModule extends BaseModule {
   数据类型: '数字'
   小数位数?: number
   最小值?: number

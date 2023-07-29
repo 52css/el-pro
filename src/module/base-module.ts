@@ -1,4 +1,4 @@
-export interface BaseField {
+export interface BaseModule {
   字段名称: string
   字段标识: string
   字段描述?: string

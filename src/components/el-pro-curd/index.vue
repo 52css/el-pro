@@ -8,11 +8,11 @@ import { ref, reactive, PropType } from "vue";
 import type { FormInstance, FormRules } from 'element-plus'
 import ElProForm from '../el-pro-form'
 import ElProQuery from '../el-pro-query'
-import { Field } from '../../model/index'
+import { Module } from '../../module/index'
 
 export type Type = 'list' | 'form' | 'query'
 
-const getModelAndRules = (moduleList: Field[] = []) => {
+const getModelAndRules = (moduleList: Module[] = []) => {
   const model = {}
   const rules = {}
 
@@ -125,7 +125,7 @@ const getModelAndRules = (moduleList: Field[] = []) => {
 }
 const props = defineProps({
   moduleList: {
-    type: Array as PropType<Field[]>,
+    type: Array as PropType<Module[]>,
     default: []
   },
   type: {
