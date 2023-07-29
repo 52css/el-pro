@@ -18,11 +18,42 @@ const getModelAndRules = (moduleList: Field[] = []) => {
 
     rules[module.字段标识] = []
 
+    let type
+
+    if (module.数据类型 === '数字') {
+      type = 'number'
+    } else if (module.数据类型 === '布尔值') {
+      type = 'boolean'
+    } else if (module.数据类型 === '邮箱') {
+      type = 'email'
+    } else if (module.数据类型 === '网址') {
+      type = 'url'
+    }
+
+    let pattern
+
+    if (module.数据类型 === '电话' &&  module.格式 === '手机号码') {
+      pattern = /^1\d{10}$/
+    }
+
     if (module.是否必填) {
       rules[module.字段标识].push({
-        type: 'string',
         required: true,
         message: `${module.字段名称}不能为空`,
+      })
+    }
+
+    if (type) {
+      rules[module.字段标识].push({
+        type,
+        message: `${module.字段名称}必须是${module.数据类型}格式`,
+      })
+    }
+
+    if (pattern) {
+      rules[module.字段标识].push({
+        pattern,
+        message: `${module.字段名称}必须是${module.数据类型}格式`,
       })
     }
   })
@@ -135,11 +166,22 @@ const handleReset = () => {
       :label="module.字段名称"
     >
       <el-input
-        v-if="module.数据类型 === '文本'"
+        v-if="['文本', '邮箱', '电话', '网址'].includes(module.数据类型)"
         v-model="ruleForm[module.字段标识]"
-        :type="module.格式 === '多行文本' ? 'textarea' : 'text'"
-        :maxlength="module['最大长度（字节）']"
+        :type="'格式' in module && module.格式 === '多行文本' ? 'textarea' : 'text'"
+        :maxlength="module['最大长度']"
         show-word-limit
+      />
+      <el-switch
+        v-if="module.数据类型 === '布尔值'"
+        v-model="ruleForm[module.字段标识]"
+      />
+      <el-input-number
+        v-if="module.数据类型 === '数字'"
+        v-model="ruleForm[module.字段标识]"
+        :precision="module['小数位数'] || 0"
+        :min="module['最小值']"
+        :max="module['最大值']"
       />
     </el-form-item>
     <el-form-item>
