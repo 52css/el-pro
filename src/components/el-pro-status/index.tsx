@@ -1,4 +1,4 @@
-import { ref, defineComponent, PropType, computed } from "vue";
+import { ref, defineComponent, PropType, computed, renderSlot } from "vue";
 
 import './index.css'
 
@@ -46,8 +46,13 @@ export default defineComponent({
 
       return colorMap[props.status] || props.status
     })
-    return () => <div class="el-pro-status" data-status={props.status} data-type={props.type} style={{'--status-color': statusColor.value}}>
-      {slots && slots.default && slots.default()}
-    </div>;
+    return () => {
+      const { status, type } = props;
+      const children = renderSlot(slots, 'default', { key: 0 }, () => [])
+
+      return <div class="el-pro-status" data-status={status} data-type={type} style={{'--status-color': statusColor.value}}>
+        {children}
+      </div>
+    };
   },
 });

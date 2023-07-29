@@ -1,4 +1,4 @@
-import { ref, defineComponent } from "vue";
+import { ref, defineComponent, renderSlot } from "vue";
 import { ElButton, ElPopconfirm } from "element-plus";
 
 function useClick(onClick: any) {
@@ -46,23 +46,28 @@ export default defineComponent({
   },
   setup(props, { slots, attrs }) {
     const { loading, handleClick } = useClick(props.onClick);
-    const children = slots && slots.default && slots.default();
     const handleConfirm = (event: Event) => {
       props?.onConfirm?.(event)
     }
     const handleCancel = (event: Event) => {
       props?.onCancel?.(event)
     }
-    return () => props.confirm ? 
-      <ElPopconfirm title={props.confirm} onConfirm={handleConfirm} onCancel={handleCancel}>
-        {{
-          reference: () => (<ElButton {...attrs} loading={loading.value} onClick={handleClick}>
-            {children}
-          </ElButton>)
-        }}
-      </ElPopconfirm> :
-      <ElButton {...attrs} loading={loading.value} onClick={handleClick}>
-        {children}
-      </ElButton>;
+
+    return () => {
+      const { confirm } = props;
+      const children = renderSlot(slots, 'default', { key: 0 }, () => [])
+
+      return confirm ?
+        <ElPopconfirm title={confirm} onConfirm={handleConfirm} onCancel={handleCancel}>
+          {{
+            reference: () => (<ElButton {...attrs} loading={loading.value} onClick={handleClick}>
+              {children}
+            </ElButton>)
+          }}
+        </ElPopconfirm> :
+        <ElButton {...attrs} loading={loading.value} onClick={handleClick}>
+          {children}
+        </ElButton>
+    };
   },
 });

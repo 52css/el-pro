@@ -10,6 +10,8 @@ import {
   Slots,
   onMounted,
   onUnmounted,
+  renderSlot,
+  VNodeArrayChildren,
 } from "vue";
 import {
   ElTable,
@@ -84,12 +86,11 @@ export interface Fixed {
   onFooterUnfixed?: () => void;
 }
 
-function useChildren(slots: Slots) {
-  const items = slots && slots.default ? slots.default() : [];
-  return items.map((tableColumn: VNode, tableColumnIndex: number) => {
+function useChildren(children: any) {
+  return children.map((tableColumn: any, tableColumnIndex: number, arr: VNodeArrayChildren[]) => {
     let fixed: boolean | string = false;
     tableColumnIndex === 0 && (fixed = "left");
-    tableColumnIndex === items.length - 1 && (fixed = "right");
+    tableColumnIndex === arr.length - 1 && (fixed = "right");
 
     return cloneVNode(tableColumn, {
       fixed,
@@ -557,7 +558,6 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const children = useChildren(slots);
     const { node: paginationNode, dataSource } = usePagination(
       props.pagination,
       props.data
@@ -585,8 +585,12 @@ export default defineComponent({
 
     useFixed(props.fixed, elProTable);
 
-    return () => (
-      <div
+    return () => {
+      const children = renderSlot(slots, 'default', { key: 0 }, () => [])
+      // debugger
+      const cloneChildren = useChildren(children.children)
+      const btnChildren = renderSlot(slots, 'btn', { key: 0 }, () => [])
+      return <div
         ref={elProTable}
         class="el-pro-table"
         data-full-screen={fullScreen.value}
@@ -595,7 +599,7 @@ export default defineComponent({
           <div class="toolbar">
             <div class="toolbar__left">{titleNode}</div>
             <div class="toolbar__right">
-              {slots && slots.btn && slots.btn()}
+              {btnChildren}
               {refreshNode}
               {fullScreenNode}
               {settingNode}
@@ -606,10 +610,10 @@ export default defineComponent({
           {sortableNode}
           {checkboxNode}
           {radioNode}
-          {children}
+          {cloneChildren}
         </ElTable>
         {paginationNode()}
       </div>
-    );
+    };
   },
 });
