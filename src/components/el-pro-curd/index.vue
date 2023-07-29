@@ -7,7 +7,10 @@ export default {
 import { ref, reactive, PropType } from "vue";
 import type { FormInstance, FormRules } from 'element-plus'
 import ElProForm from '../el-pro-form'
+import ElProQuery from '../el-pro-query'
 import { Field } from '../../model/index'
+
+export type Type = 'list' | 'form' | 'query'
 
 const getModelAndRules = (moduleList: Field[] = []) => {
   const model = {}
@@ -126,8 +129,8 @@ const props = defineProps({
     default: []
   },
   type: {
-    type: String,
-    default: 'form' // list\form
+    type: String as PropType<Type>,
+    default: 'form'
   }
 })
 const emit = defineEmits(['submit', 'reset'])
@@ -154,6 +157,7 @@ const handleReset = () => {
 </script>
 <template>
   <el-pro-form
+    v-if="type === 'form'"
     ref="ruleFormRef"
     :model="ruleForm"
     :rules="ruleRules"
@@ -191,4 +195,36 @@ const handleReset = () => {
       <el-button @click="handleReset">重置</el-button>
     </el-form-item>
   </el-pro-form>
+  <el-pro-query
+    v-if="type === 'query'"
+    ref="ruleFormRef"
+    :model="ruleForm"
+    label-width="120px"
+  >
+    <el-form-item
+      v-for="(module, moduleIndex) in moduleList"
+      :key="moduleIndex"
+      :prop="module.字段标识"
+      :label="module.字段名称"
+    >
+      <el-input
+        v-if="['文本', '邮箱', '电话', '网址'].includes(module.数据类型)"
+        v-model="ruleForm[module.字段标识]"
+        :type="'格式' in module && module.格式 === '多行文本' ? 'textarea' : 'text'"
+        :maxlength="module['最大长度']"
+        show-word-limit
+      />
+      <el-switch
+        v-if="module.数据类型 === '布尔值'"
+        v-model="ruleForm[module.字段标识]"
+      />
+      <el-input-number
+        v-if="module.数据类型 === '数字'"
+        v-model="ruleForm[module.字段标识]"
+        :precision="module['小数位数'] || 0"
+        :min="module['最小值']"
+        :max="module['最大值']"
+      />
+    </el-form-item>
+  </el-pro-query>
 </template>
