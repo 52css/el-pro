@@ -3,6 +3,7 @@ import {
   ref,
   VNode,
   PropType,
+  Comment,
 } from "vue";
 import ElProForm from '../el-pro-form'
 import { ElForm, ElButton, ElIcon } from "element-plus";
@@ -43,9 +44,10 @@ export default defineComponent({
         emit('query')
       })
     }
-    const handleCol = (col:number, el: HTMLElement) => {
+    const handleCol = (col:number) => {
       showIndex.value = props.line * (12 / col) - 1;
-      hasMore.value = el.children.length >= showIndex.value;
+      const childrenLength = slots.default && slots.default().filter(x => x.type !== Comment).length || 0
+      hasMore.value = childrenLength > showIndex.value;
     }
     return () => (
       <div class="el-pro-query">

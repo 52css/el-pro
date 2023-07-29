@@ -20,7 +20,7 @@ function useChildren(slots: Slots, col: Col, elProForm: Ref, emit: (event: 'col'
     } else {
       defaultCol.value = 6;
     }
-    emit('col', defaultCol.value, elProForm.value?.$el)
+    emit('col', defaultCol.value)
   };
 
   if (col === true) {
@@ -36,7 +36,7 @@ function useChildren(slots: Slots, col: Col, elProForm: Ref, emit: (event: 'col'
       });
     });
   } else {
-    emit('col', col, elProForm.value?.$el)
+    emit('col', col)
   }
 
 
