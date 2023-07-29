@@ -50,6 +50,15 @@ function getComponentsSidebar() {
         },
       ],
     },
+    {
+      text: '数据',
+      items: [
+        {
+          text: 'CURD',
+          link: '/components/curd',
+        },
+      ],
+    },
   ]
 }
 
