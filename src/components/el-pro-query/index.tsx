@@ -5,6 +5,7 @@ import {
   PropType,
   Comment,
   nextTick,
+  renderSlot,
 } from "vue";
 import ElProForm from '../el-pro-form'
 import { ElForm, ElButton, ElIcon } from "element-plus";
@@ -16,6 +17,17 @@ import "./index.css";
 // true 子根据父宽度自动分栏
 // number 设置指定的栏目
 export type Col = boolean | number
+
+function getChildren(children: any) {
+  if ((children.children ?? []).length === 0) return []
+
+  if (Array.isArray(children.children)) {
+    return children.children
+  }
+
+  return [children.children]
+}
+
 
 export default defineComponent({
   name: 'ElProQuery',
@@ -35,8 +47,8 @@ export default defineComponent({
     const hasMore = ref(false);
     const showMore = ref(false);
     const showIndex = ref(-1);
+    let children: any[] = []
     const defaultCol = ref()
-    // const { node, moreNode } = useChildren(slots,props.col, elProQuery);
     const handleReset = () => {
       elProQuery.value?.resetFields()
       emit('reset')
@@ -49,14 +61,15 @@ export default defineComponent({
     const handleCol = (col:number) => {
       defaultCol.value = col
       showIndex.value = props.line * (12 / col) - 1;
-      const childrenLength = slots.default && slots.default().filter(x => x.type !== Comment).length || 0
+      const childrenLength = children.filter(x => x.type !== Comment).length || 0
       hasMore.value = childrenLength > showIndex.value;
     }
-    return () => (
-      <div class="el-pro-query">
+    return () => {
+      children = getChildren(renderSlot(slots, 'default', { key: 0 }, () => []))
+
+      return <div class="el-pro-query">
         <ElProForm ref={elProQuery} col={props.col} {...attrs} class="el-pro-query__form" onCol={handleCol}>
-          {{default: () => slots.default && slots.default().map((child: VNode, childIndex) => {
-            // console.log('child', child)
+          {{default: () => children.map((child: VNode, childIndex: number) => {
             if (childIndex === 0) {
               nextTick(() => {
                 defaultCol.value && handleCol(defaultCol.value)
@@ -90,6 +103,6 @@ export default defineComponent({
             </div>)}
         </div>
       </div>
-    );
+    };
   },
 });

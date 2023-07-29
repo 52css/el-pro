@@ -86,17 +86,14 @@ export interface Fixed {
   onFooterUnfixed?: () => void;
 }
 
-function useChildren(children: any) {
-  return children.map((tableColumn: any, tableColumnIndex: number, arr: VNodeArrayChildren[]) => {
-    let fixed: boolean | string = false;
-    tableColumnIndex === 0 && (fixed = "left");
-    tableColumnIndex === arr.length - 1 && (fixed = "right");
+function getChildren(children: any) {
+  if ((children.children ?? []).length === 0) return []
 
-    return cloneVNode(tableColumn, {
-      fixed,
-      minWidth: tableColumn?.props?.minWidth || 128,
-    });
-  });
+  if (Array.isArray(children.children)) {
+    return children.children
+  }
+
+  return [children.children]
 }
 
 function useCheckbox(rowSelection: RowSelection, dataSource: Ref<Data[]>) {
@@ -586,9 +583,7 @@ export default defineComponent({
     useFixed(props.fixed, elProTable);
 
     return () => {
-      const children = renderSlot(slots, 'default', { key: 0 }, () => [])
-      // debugger
-      const cloneChildren = useChildren(children.children)
+      const children = getChildren(renderSlot(slots, 'default', { key: 0 }, () => []))
       const btnChildren = renderSlot(slots, 'btn', { key: 0 }, () => [])
       return <div
         ref={elProTable}
@@ -610,7 +605,16 @@ export default defineComponent({
           {sortableNode}
           {checkboxNode}
           {radioNode}
-          {cloneChildren}
+          {children.map((tableColumn: any, tableColumnIndex: number, arr: VNodeArrayChildren[]) => {
+            let fixed: boolean | string = false;
+            tableColumnIndex === 0 && (fixed = "left");
+            tableColumnIndex === arr.length - 1 && (fixed = "right");
+
+            return cloneVNode(tableColumn, {
+              fixed,
+              minWidth: tableColumn?.props?.minWidth || 128,
+            });
+          })}
         </ElTable>
         {paginationNode()}
       </div>

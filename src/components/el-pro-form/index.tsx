@@ -2,7 +2,6 @@ import { defineComponent, cloneVNode, VNode, Slots, ref, Ref, onMounted, onUnmou
 import { ElForm, ElCol } from "element-plus";
 import type { FormInstance, FormRules } from 'element-plus'
 import "./index.css";
-import { isArray } from "lodash-es";
 
 // false 不分栏
 // true 子根据父宽度自动分栏
@@ -46,10 +45,10 @@ function useCol(col: Col, elProForm: Ref, emit: (event: 'col', ...args: any[]) =
   }
 }
 
-function useChildren(children: any) {
-  if ((children.children ?? []).length === 0) return null
+function getChildren(children: any) {
+  if ((children.children ?? []).length === 0) return []
 
-  if (isArray(children.children)) {
+  if (Array.isArray(children.children)) {
     return children.children
   }
 
@@ -88,13 +87,10 @@ export default defineComponent({
     });
 
     return () => {
-      const children = renderSlot(slots, 'default', { key: 0 }, () => [])
-      const cloneChildren = useChildren(children)
-
-      // console.log('children.children', children.children)
+      const children = getChildren(renderSlot(slots, 'default', { key: 0 }, () => []))
 
       return <ElForm ref={elProForm} {...attrs} class="el-pro-form">
-        {cloneChildren?.map((child: VNode) => {
+        {children.map((child: VNode) => {
           const span = (child?.props?.col ?? defaultCol.value) * 2
           const width = 24 / span * 100 + '%'
           return <ElCol span={span} class="el-pro-form__item" style={{ width }}>{child}</ElCol>;

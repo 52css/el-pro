@@ -1,4 +1,4 @@
-import { ref, defineComponent, Slots, onMounted, Ref, VNode, nextTick } from "vue";
+import { ref, defineComponent, Slots, onMounted, Ref, VNode, nextTick, renderSlot } from "vue";
 import { ElDropdown, ElIcon, ElDropdownMenu, ElDropdownItem } from "element-plus";
 import {
   ArrowDown
@@ -6,21 +6,41 @@ import {
 
 import './index.css';
 
-function useChildren(slots: Slots, elProOperation: Ref) {
-  let width = 0
+function useParentWidth(elProOperation: Ref) {
   const parentWidth = ref(Infinity)
-  const showRight = ref(false)
-  const rightNode: VNode[] = []
-  // 没有找打如何watch slots.default()改变事件，写到tsx中，重新得到 rightNode
-  const node = () => slots.default && slots.default().map((x:any, xIndex) => {
+
+  onMounted(() => {
+    parentWidth.value = elProOperation.value.clientWidth
+  })
+
+  return parentWidth
+}
+
+function getChildren(children: any) {
+  if ((children.children ?? []).length === 0) return []
+
+  if (Array.isArray(children.children)) {
+    return children.children
+  }
+
+  return [children.children]
+}
+
+function getLeftNodeAndRightNode(children: any, parentWidth: Ref, showRight: Ref) {
+  let width = 0;
+  let leftNode:VNode[] = [];
+  let rightNode:VNode[] = [];
+
+  children.forEach((x: any, xIndex: number) => {
     if (xIndex === 0) {
-      width = 0
-      rightNode.length = 0
-      // 重新获取右边信息
+      width = 0;
+      rightNode.length = 0;
+
       nextTick(() => {
         showRight.value = rightNode.length > 0
       })
     }
+
     const textLen = x.children.default && x.children.default()[0].children.length || 0
     const marginLeft = width === 0 ? 0 : 12
     const paddingLeft = 2;
@@ -30,26 +50,17 @@ function useChildren(slots: Slots, elProOperation: Ref) {
       width += marginLeft + paddingLeft + textWidth + paddingRight
     }
 
-    x.left = width < parentWidth.value
-
-    if (x.left) {
-      return x
+    if (width < parentWidth.value) {
+      leftNode.push(x)
+    } else {
+      rightNode.push(x)
     }
-
-    // 这个不能设置响应式数据，否则会死循环
-    rightNode.push(x)
-  })
-
-  onMounted(() => {
-    parentWidth.value = elProOperation.value.clientWidth
-  })
+  });
 
   return {
-    node,
-    showRight,
+    leftNode,
     rightNode
   }
-
 }
 
 export default defineComponent({
@@ -58,11 +69,15 @@ export default defineComponent({
   },
   setup(props, { slots, attrs }) {
     const elProOperation = ref()
-    const { node, showRight, rightNode } = useChildren(slots, elProOperation)
+    const parentWidth = useParentWidth(elProOperation)
+    const showRight = ref(false)
 
-    return () => (
-      <div ref={elProOperation} class="el-pro-operation">
-        {node()}
+    return () => {
+      const children = getChildren(renderSlot(slots, 'default', { key: 0 }, () => []))
+      const { leftNode, rightNode } = getLeftNodeAndRightNode(children, parentWidth, showRight)
+
+      return <div ref={elProOperation} class="el-pro-operation">
+        {leftNode}
         {showRight.value && (
           <ElDropdown trigger="click" hideOnClick={false}>
             {{
@@ -72,12 +87,12 @@ export default defineComponent({
                 </ElIcon>
               </div>),
               dropdown: () => (<ElDropdownMenu>
-                {rightNode.map(x => <ElDropdownItem>{x}</ElDropdownItem>)}
+                {rightNode.map((x: VNode) => <ElDropdownItem>{x}</ElDropdownItem>)}
               </ElDropdownMenu>)
             }}
           </ElDropdown>
         )}
       </div>
-    );
+    };
   },
 });
