@@ -1,6 +1,6 @@
-import { BaseModule } from './base-module'
+import { BaseModel } from './base-model'
 
-export interface DigitModule extends BaseModule {
+export interface DigitModel extends BaseModel {
   数据类型: '数字'
   小数位数?: number
   最小值?: number

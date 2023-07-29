@@ -1,4 +1,4 @@
-import { BaseModule } from './base-module'
+import { BaseModel } from './base-model'
 
 interface EnumItem {
   选项标识: string
@@ -12,7 +12,7 @@ interface Enum {
   选项集: EnumItem[]
 }
 
-export interface EnumModule extends BaseModule {
+export interface EnumModel extends BaseModel {
   数据类型: '枚举'
   选择设置: '单选' | '多选'
   关联选项集: Enum

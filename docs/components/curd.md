@@ -8,7 +8,7 @@
 
 ```vue
 <script lang="ts" setup>
-const moduleList = [
+const modelList = [
   {
     字段名称: '文本',
     字段标识: 'wb',
@@ -94,7 +94,7 @@ const handleReset = () => {
 }
 </script>
 <template>
-  <el-pro-curd :module-list="moduleList" @submit="handleSubmit" @reset="handleReset" />
+  <el-pro-curd :model-list="modelList" @submit="handleSubmit" @reset="handleReset" />
 </template>
 ```
 
@@ -106,7 +106,7 @@ const handleReset = () => {
 
 ```vue
 <script lang="ts" setup>
-const moduleList = [
+const modelList = [
   {
     字段名称: '文本',
     字段标识: 'wb',
@@ -192,7 +192,7 @@ const handleReset = () => {
 }
 </script>
 <template>
-  <el-pro-curd :module-list="moduleList" type="query" @query="handleQuery" @reset="handleReset" />
+  <el-pro-curd :model-list="modelList" type="query" @query="handleQuery" @reset="handleReset" />
 </template>
 ```
 
@@ -201,7 +201,7 @@ const handleReset = () => {
 ## CURD API
 
 ```ts
-export type Module = TextModule | BooleanModule | DigitModule | EmailModule | PhoneModule | WebModule
+export type Model = TextModel | BooleanModel | DigitModel | EmailModel | PhoneModel | WebModel
 
 export type Type = 'list' | 'form' | 'query'
 ```
@@ -210,7 +210,7 @@ export type Type = 'list' | 'form' | 'query'
 
 | 参数    | 说明     | 类型             | 可选值 | 默认值 |
 |---------|--------|------------------|--------|--------|
-| moduleList   | 模型 | `Module[]` | —      | —      |
+| model-list   | 模型 | `Model[]` | —      | —      |
 | type | 展示类型 | `Type`         | —      | —      |
 
 ### Form Events

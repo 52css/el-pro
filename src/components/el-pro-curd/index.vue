@@ -8,16 +8,16 @@ import { ref, reactive, PropType } from "vue";
 import type { FormInstance, FormRules } from 'element-plus'
 import ElProForm from '../el-pro-form'
 import ElProQuery from '../el-pro-query'
-import { Module } from '../../module/index'
+import type { Model } from '../../model/index'
 
 export type Type = 'list' | 'form' | 'query'
 
-const getModelAndRules = (moduleList: Module[] = []) => {
-  const model = {}
+const getModelAndRules = (modelList: Model[] = []) => {
+  const defaultModel = {}
   const rules = {}
 
-  moduleList.forEach(module => {
-    model[module.字段标识] = '默认值' in module ? module.默认值 : undefined
+  modelList.forEach(module => {
+    defaultModel[module.字段标识] = '默认值' in module ? module.默认值 : undefined
 
     rules[module.字段标识] = []
 
@@ -119,13 +119,17 @@ const getModelAndRules = (moduleList: Module[] = []) => {
    */
 
   return {
-    model,
+    defaultModel,
     rules
   }
 }
 const props = defineProps({
-  moduleList: {
-    type: Array as PropType<Module[]>,
+  data: {
+    type: [Object, Array],
+    default: null
+  },
+  modelList: {
+    type: Array as PropType<Model[]>,
     default: []
   },
   type: {
@@ -135,8 +139,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['submit', 'reset'])
 const ruleFormRef = ref<FormInstance>()
-const { model, rules } = getModelAndRules(props.moduleList)
-const ruleForm = reactive(model)
+const { defaultModel, rules } = getModelAndRules(props.modelList)
+const ruleForm = reactive(props.data || defaultModel)
 const ruleRules = reactive<FormRules>(rules)
 const handleSubmit = async () => {
   if (!ruleFormRef.value) return
@@ -164,7 +168,7 @@ const handleReset = () => {
     label-width="120px"
   >
     <el-form-item
-      v-for="(module, moduleIndex) in moduleList"
+      v-for="(module, moduleIndex) in modelList"
       :key="moduleIndex"
       :prop="module.字段标识"
       :label="module.字段名称"
@@ -202,7 +206,7 @@ const handleReset = () => {
     label-width="120px"
   >
     <el-form-item
-      v-for="(module, moduleIndex) in moduleList"
+      v-for="(module, moduleIndex) in modelList"
       :key="moduleIndex"
       :prop="module.字段标识"
       :label="module.字段名称"

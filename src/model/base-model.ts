@@ -1,4 +1,4 @@
-export interface BaseModule {
+export interface BaseModel {
   字段名称: string
   字段标识: string
   字段描述?: string
