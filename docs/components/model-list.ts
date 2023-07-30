@@ -1,5 +1,3 @@
-import { stubTrue } from "lodash-es"
-
 const options = Array.from({ length: 10000 }).map((_, idx) => ({
   选项值: `${idx + 1}`,
   选项标识: `${idx + 1}`,
@@ -99,7 +97,7 @@ export const modelList = [
     字段名称: 'Activity form',
     字段标识: 'desc',
     // 字段描述?: string
-    是否必填: stubTrue,
+    是否必填: true,
     // 是否唯一: false,
     数据类型: '文本',
     格式: '多行文本',
