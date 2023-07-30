@@ -77,9 +77,9 @@ export default defineComponent({
     const { defaultCol } = useCol(props.col, elProForm, emit)
 
     // 表单校验
-    const validate = async () => {
+    const validate = async (fn) => {
       if (!elProForm.value) return;
-      return await elProForm.value.validate();
+      return await elProForm.value.validate(fn);
     };
 
     // 表单重置

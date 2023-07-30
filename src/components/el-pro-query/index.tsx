@@ -11,7 +11,8 @@ import ElProForm from '../el-pro-form'
 import { ElForm, ElButton, ElIcon } from "element-plus";
 import type { FormInstance, FormRules } from 'element-plus'
 import { ArrowDown } from "@element-plus/icons-vue";
-import { getChildren } from "../../utils"
+import { getChildren, extractChildren } from "../../utils"
+import Item from './item'
 import "./index.css";
 
 // false 不分栏
@@ -37,29 +38,34 @@ export default defineComponent({
     const hasMore = ref(false);
     const showMore = ref(false);
     const showIndex = ref(-1);
-    let children: any[] = []
+    let extractChild: any[] = []
     const defaultCol = ref()
     const handleReset = () => {
       elProQuery.value?.resetFields()
       emit('reset')
     }
     const handleQuery = () => {
-      elProQuery.value?.validate().then(() => {
-        emit('query')
+      elProQuery.value?.validate((valid, fields) => {
+        if (valid) {
+          emit('query', fields)
+        } else {
+          console.log('error submit!', fields)
+        }
       })
     }
     const handleCol = (col:number) => {
       defaultCol.value = col
       showIndex.value = props.line * (12 / col) - 1;
-      const childrenLength = children.filter(x => x.type !== Comment).length || 0
+      const childrenLength = extractChild.filter(x => x.type !== Comment).length || 0
       hasMore.value = childrenLength > showIndex.value;
     }
     return () => {
-      children = getChildren(renderSlot(slots, 'default', { key: 0 }, () => []))
+      const children = getChildren(renderSlot(slots, 'default', { key: 0 }, () => []))
+      extractChild = extractChildren(children, Item)
 
       return <div class="el-pro-query">
         <ElProForm ref={elProQuery} col={props.col} {...attrs} class="el-pro-query__form" onCol={handleCol}>
-          {{default: () => children.map((child: VNode, childIndex: number) => {
+          {{default: () => extractChild.map((child: VNode, childIndex: number) => {
             if (childIndex === 0) {
               nextTick(() => {
                 defaultCol.value && handleCol(defaultCol.value)

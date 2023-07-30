@@ -51,7 +51,7 @@ export function isValidElementNode(node: unknown): node is VNode {
 // we need to go deeper until the child is not the Fragment type
 export function extractChildren(
   children: VNodeArrayChildren,
-  Item: DefineComponent,
+  Item: any,
   props = (x: any) => ({}),
   parentKey = '',
   extractedChildren: VNode[] = []

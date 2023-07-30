@@ -137,7 +137,7 @@ const props = defineProps({
     default: 'form'
   }
 })
-const emit = defineEmits(['submit', 'reset'])
+const emit = defineEmits(['submit', 'query', 'reset'])
 const ruleFormRef = ref<FormInstance>()
 const { defaultModel, rules } = getModelAndRules(props.modelList)
 const ruleForm = reactive(props.data || defaultModel)
@@ -204,6 +204,8 @@ const handleReset = () => {
     ref="ruleFormRef"
     :model="ruleForm"
     label-width="120px"
+    @query="emit('query', ruleForm)"
+    @reset="emit('reset')"
   >
     <el-form-item
       v-for="(module, moduleIndex) in modelList"
