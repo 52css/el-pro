@@ -162,6 +162,11 @@ const componentMap = {
   form: ElProForm,
   query: ElProQuery
 }
+const datePickerTypeMap = {
+  日期时间: 'datetime',
+  日期: 'date',
+  时间: 'time',
+}
 
 // 如果接口请求完毕，重新更新
 watch(() => props.model, (newVal: Ref) => {
@@ -198,22 +203,56 @@ watch(() => props.model, (newVal: Ref) => {
         show-word-limit
       />
       <el-switch
-        v-if="module.数据类型 === '布尔值'"
+        v-else-if="module.数据类型 === '布尔值'"
         v-model="formModel[module.字段标识]"
       />
       <el-input-number
-        v-if="module.数据类型 === '数字'"
+        v-else-if="module.数据类型 === '数字'"
         v-model="formModel[module.字段标识]"
         :precision="module['小数位数'] || 0"
         :min="module['最小值']"
         :max="module['最大值']"
       />
-      <el-select-v2
-        v-if="module.数据类型 === '枚举'"
-        v-model="formModel[module.字段标识]"
-        placeholder="请选择"
-        :options="module.关联选项集.选项集.map(x => ({label: x.选项标识, value: x.选项值}))"
-      />
+      <template v-else-if="module.数据类型 === '枚举'">
+        <el-select-v2
+          v-if="module.关联选项集.选项集.length > 5"
+          v-model="formModel[module.字段标识]"
+          placeholder="请选择"
+          :options="module.关联选项集.选项集.map(x => ({label: x.选项标识, value: x.选项值}))"
+        />
+        <el-checkbox-group v-else-if="module.选择设置 === '多选'" v-model="formModel[module.字段标识]">
+          <el-checkbox v-for="(item) in module.关联选项集.选项集"
+            :key="item.选项值"
+            :label="item.选项值"
+          >
+            {{ item.选项标识 }}
+          </el-checkbox>
+        </el-checkbox-group>
+        <el-radio-group v-else v-model="formModel[module.字段标识]">
+          <el-radio v-for="(item) in module.关联选项集.选项集"
+            :key="item.选项值"
+            :label="item.选项值"
+          >
+            {{ item.选项标识 }}
+          </el-radio>
+          <el-radio label="1">Option 1</el-radio>
+        </el-radio-group>
+      </template>
+      <template v-else-if="module.数据类型 === '日期时间'">
+        <el-time-picker
+          v-if="module.格式 === '时间'"
+          v-model="formModel[module.字段标识]"
+          :default-value="module.默认值"
+          placeholder="请选择"
+        />
+        <el-date-picker
+          v-else
+          v-model="formModel[module.字段标识]"
+          :type="datePickerTypeMap[module.格式]"
+          :default-time="module.默认值"
+          placeholder="请选择"
+        />
+      </template>
     </el-form-item>
     <el-form-item v-if="type === 'form'">
       <el-button type="primary" @click="handleSubmit">

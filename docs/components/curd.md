@@ -24,7 +24,7 @@ const model = reactive({
 setTimeout(() => {
   console.log('接口请求完毕')
   model.value = {
-    wb: '啊啊发的发'
+    name: '啊啊发的发'
   }
 }, 1000)
 
