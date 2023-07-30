@@ -193,7 +193,8 @@ watch(() => props.model, (newVal: Ref) => {
         v-if="['文本', '邮箱', '电话', '网址'].includes(module.数据类型)"
         v-model="formModel[module.字段标识]"
         :type="'格式' in module && module.格式 === '多行文本' ? 'textarea' : 'text'"
-        :maxlength="module['最大长度']"
+        :maxlength="'最大长度' in module ? module['最大长度'] : null"
+        placeholder="请输入"
         show-word-limit
       />
       <el-switch
@@ -206,6 +207,12 @@ watch(() => props.model, (newVal: Ref) => {
         :precision="module['小数位数'] || 0"
         :min="module['最小值']"
         :max="module['最大值']"
+      />
+      <el-select-v2
+        v-if="module.数据类型 === '枚举'"
+        v-model="formModel[module.字段标识]"
+        placeholder="请选择"
+        :options="module.关联选项集.选项集.map(x => ({label: x.选项标识, value: x.选项值}))"
       />
     </el-form-item>
     <el-form-item v-if="type === 'form'">

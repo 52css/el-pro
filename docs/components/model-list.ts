@@ -1,7 +1,12 @@
+const options = Array.from({ length: 10000 }).map((_, idx) => ({
+  选项值: `${idx + 1}`,
+  选项标识: `${idx + 1}`,
+}))
+
 export const modelList = [
   {
-    字段名称: '文本',
-    字段标识: 'wb',
+    字段名称: 'Activity name',
+    字段标识: 'name',
     // 字段描述?: string
     是否必填: true,
     // 是否唯一: false,
@@ -9,7 +14,23 @@ export const modelList = [
     格式: '单行文本',
     // '最小长度': 0,
     最大长度: 30,
-    默认值: 'hello world'
+    默认值: 'Hello'
+  },
+  {
+    字段名称: 'Activity count',
+    字段标识: 'count',
+    // 字段描述?: string
+    是否必填: true,
+    // 是否唯一: false,
+    数据类型: '枚举',
+    选择设置: '单选',
+    关联选项集: {
+      选项集名称: '地区',
+      选项集标识: 'dq',
+      // 描述?: string
+      选项集: options,
+    },
+    // 默认值?: string
   },
   {
     字段名称: '多行文本',

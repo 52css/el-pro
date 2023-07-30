@@ -7,6 +7,7 @@ import { DigitModel } from './digit-model'
 import { EmailModel } from './email-model'
 import { PhoneModel } from './phone-model'
 import { WebModel } from './web-model'
+import { EnumModel } from './enum-model'
 
 export type ModelItem =
   | TextModel
@@ -15,3 +16,4 @@ export type ModelItem =
   | EmailModel
   | PhoneModel
   | WebModel
+  | EnumModel
