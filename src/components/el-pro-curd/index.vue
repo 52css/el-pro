@@ -13,8 +13,8 @@ import type { ModelItem } from './model/index'
 export type Type = 'list' | 'form' | 'query'
 
 const getModelAndRules = (modelList: ModelItem[] = []) => {
-  const defaultModel = {}
-  const defaultRules = {}
+  const defaultModel:any = {}
+  const defaultRules:any = {}
 
   modelList.forEach(module => {
     defaultModel[module.字段标识] = '默认值' in module ? module.默认值 : undefined
@@ -140,7 +140,7 @@ const props = defineProps({
 const emit = defineEmits(['submit', 'query', 'reset'])
 const { defaultModel, defaultRules } = getModelAndRules(props.modelList)
 const formRef = ref<FormInstance>()
-const formModel = reactive(toRaw(props.model) || defaultModel)
+const formModel = reactive<any>(toRaw(props.model) || defaultModel)
 const formRules = reactive<FormRules>(defaultRules)
 const handleSubmit = async () => {
   if (!formRef.value) return
@@ -158,6 +158,10 @@ const handleReset = () => {
   formRef.value?.resetFields()
   emit('reset')
 }
+const componentMap = {
+  form: ElProForm,
+  query: ElProQuery
+}
 
 // 如果接口请求完毕，重新更新
 watch(() => props.model, (newVal: Ref) => {
@@ -170,51 +174,13 @@ watch(() => props.model, (newVal: Ref) => {
 
 </script>
 <template>
-  <el-pro-form
-    v-if="type === 'form'"
+  <component
     ref="formRef"
     :model="formModel"
-    :rules="formRules"
+    :rules="type === 'form' ? formRules : []"
+    :is="componentMap[type]"
     label-width="120px"
-  >
-    <el-form-item
-      v-for="(module, moduleIndex) in modelList"
-      :key="moduleIndex"
-      :prop="module.字段标识"
-      :label="module.字段名称"
-    >
-      <el-input
-        v-if="['文本', '邮箱', '电话', '网址'].includes(module.数据类型)"
-        v-model="formModel[module.字段标识]"
-        :type="'格式' in module && module.格式 === '多行文本' ? 'textarea' : 'text'"
-        :maxlength="module['最大长度']"
-        show-word-limit
-      />
-      <el-switch
-        v-if="module.数据类型 === '布尔值'"
-        v-model="formModel[module.字段标识]"
-      />
-      <el-input-number
-        v-if="module.数据类型 === '数字'"
-        v-model="formModel[module.字段标识]"
-        :precision="module['小数位数'] || 0"
-        :min="module['最小值']"
-        :max="module['最大值']"
-      />
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="handleSubmit">
-        保存
-      </el-button>
-      <el-button @click="handleReset">重置</el-button>
-    </el-form-item>
-  </el-pro-form>
-  <el-pro-query
-    v-if="type === 'query'"
-    ref="formRef"
-    :model="formModel"
-    label-width="120px"
-    @query="emit('query', formModel)"
+    @query="emit('query', toRaw(formModel))"
     @reset="emit('reset')"
   >
     <el-form-item
@@ -242,5 +208,11 @@ watch(() => props.model, (newVal: Ref) => {
         :max="module['最大值']"
       />
     </el-form-item>
-  </el-pro-query>
+    <el-form-item v-if="type === 'form'">
+      <el-button type="primary" @click="handleSubmit">
+        保存
+      </el-button>
+      <el-button @click="handleReset">重置</el-button>
+    </el-form-item>
+  </component>
 </template>
