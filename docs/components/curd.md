@@ -169,7 +169,12 @@ const handleReset = () => {
 }
 </script>
 <template>
-  <el-pro-curd :model-list="modelList" type="query" @query="handleQuery" @reset="handleReset" />
+  <el-pro-curd
+    :model-list="modelList"
+    type="query"
+    @query="handleQuery"
+    @reset="handleReset"
+  />
 </template>
 ```
 
