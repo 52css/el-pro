@@ -581,7 +581,7 @@ export default defineComponent({
         class="el-pro-table"
         data-full-screen={fullScreen.value}
       >
-        {hasToolbar.value && (
+        {(hasToolbar.value || btnChildren) && (
           <div class="toolbar">
             <div class="toolbar__left">{titleNode}</div>
             <div class="toolbar__right">

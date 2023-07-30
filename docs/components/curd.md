@@ -173,31 +173,80 @@ const handleReset = () => {
 
 :::
 
+## 表格
+
+:::demo
+
+```vue
+<script lang="ts" setup>
+import { modelList } from './model-list.ts'
+const handleCreate = () => {
+  console.log('create')
+}
+const handleEdit = (row) => {
+  console.log('edit', row)
+}
+const handleDelete = (row) => {
+  console.log('delete', row)
+}
+</script>
+<template>
+  <el-pro-curd
+    :model-list="modelList"
+    type="table"
+    @create="handleCreate"
+    @edit="handleEdit"
+    @delete="handleDelete"
+  />
+</template>
+```
+
+:::
+
 ## CURD API
 
 ```ts
-export type ModelItem = TextModel | BooleanModel | DigitModel | EmailModel | PhoneModel | WebModel
+export type ModelItem =
+  | TextModel
+  | BooleanModel
+  | DigitModel
+  | EmailModel
+  | PhoneModel
+  | WebModel
+  | EnumModel
+  | DateModel
 
-export type Type = 'list' | 'form' | 'query'
+
+export type Type = 'table' | 'form' | 'query'
 ```
 
 ### Attributes
 
-| 参数    | 说明     | 类型             | 可选值 | 默认值 |
-|---------|--------|------------------|--------|--------|
-| model-list   | 模型 | `ModelItem[]` | —      | —      |
-| type | 展示类型 | `Type`         | —      | —      |
+| 参数       | 说明     | 类型             | 可选值 | 默认值 |
+|------------|--------|------------------|--------|--------|
+| model      | 数据     | `Object` `Array` | —      | —      |
+| model-list | 模型     | `ModelItem[]`    | —      | —      |
+| type       | 展示类型 | `Type`           | —      | —      |
 
 ### Form Events
 
-| Name    | Description | Type       |
-|---------|-------------|------------|
+| Name   | Description | Type         |
+|--------|-------------|--------------|
 | submit | 保存事件    | `() => void` |
 | reset  | 重置事件    | `() => void` |
 
 ### Query Events
 
-| Name    | Description | Type       |
-|---------|-------------|------------|
+| Name  | Description | Type         |
+|-------|-------------|--------------|
 | query | 查询事件    | `() => void` |
-| reset  | 重置事件    | `() => void` |
+| reset | 重置事件    | `() => void` |
+
+### Table Events
+
+| Name  | Description | Type         |
+|-------|-------------|--------------|
+| create | 新增    | `() => void` |
+| edit | 编辑    | `(row) => void` |
+| delete | 删除    | `(row) => void` |
+| detail | 详情    | `(row) => void` |
