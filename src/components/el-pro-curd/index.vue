@@ -16,47 +16,47 @@ const getModelAndRules = (modelList: ModelItem[] = []) => {
   const defaultModel:any = {}
   const defaultRules:any = {}
 
-  modelList.forEach(module => {
-    defaultModel[module.字段标识] = '默认值' in module ? module.默认值 : undefined
+  modelList.forEach(model => {
+    defaultModel[model.字段标识] = '默认值' in model ? model.默认值 : undefined
 
-    defaultRules[module.字段标识] = []
+    defaultRules[model.字段标识] = []
 
     let type
 
-    if (module.数据类型 === '数字') {
+    if (model.数据类型 === '数字') {
       type = 'number'
-    } else if (module.数据类型 === '布尔值') {
+    } else if (model.数据类型 === '布尔值') {
       type = 'boolean'
-    } else if (module.数据类型 === '邮箱') {
+    } else if (model.数据类型 === '邮箱') {
       type = 'email'
-    } else if (module.数据类型 === '网址') {
+    } else if (model.数据类型 === '网址') {
       type = 'url'
     }
 
     let pattern
 
-    if (module.数据类型 === '电话' &&  module.格式 === '手机号码') {
+    if (model.数据类型 === '电话' &&  model.格式 === '手机号码') {
       pattern = /^1\d{10}$/
     }
 
-    if (module.是否必填) {
-      defaultRules[module.字段标识].push({
+    if (model.是否必填) {
+      defaultRules[model.字段标识].push({
         required: true,
-        message: `${module.字段名称}不能为空`,
+        message: `${model.字段名称}不能为空`,
       })
     }
 
     if (type) {
-      defaultRules[module.字段标识].push({
+      defaultRules[model.字段标识].push({
         type,
-        message: `${module.字段名称}必须是${module.数据类型}格式`,
+        message: `${model.字段名称}必须是${model.数据类型}格式`,
       })
     }
 
     if (pattern) {
-      defaultRules[module.字段标识].push({
+      defaultRules[model.字段标识].push({
         pattern,
-        message: `${module.字段名称}必须是${module.数据类型}格式`,
+        message: `${model.字段名称}必须是${model.数据类型}格式`,
       })
     }
   })
@@ -189,47 +189,48 @@ watch(() => props.model, (newVal: Ref) => {
     @reset="emit('reset')"
   >
     <el-form-item
-      v-for="(module, moduleIndex) in modelList"
-      :key="moduleIndex"
-      :prop="module.字段标识"
-      :label="module.字段名称"
+      v-for="model in modelList"
+      :key="model.字段标识"
+      :prop="model.字段标识"
+      :label="model.字段名称"
     >
       <el-input
-        v-if="['文本', '邮箱', '电话', '网址'].includes(module.数据类型)"
-        v-model="formModel[module.字段标识]"
-        :type="'格式' in module && module.格式 === '多行文本' ? 'textarea' : 'text'"
-        :maxlength="'最大长度' in module ? module['最大长度'] : null"
+        v-if="['文本', '邮箱', '电话', '网址'].includes(model.数据类型)"
+        v-model="formModel[model.字段标识]"
+        :type="'格式' in model && model.格式 === '多行文本' ? 'textarea' : 'text'"
+        :maxlength="'最大长度' in model ? model.最大长度 : null"
         placeholder="请输入"
         show-word-limit
       />
       <el-switch
-        v-else-if="module.数据类型 === '布尔值'"
-        v-model="formModel[module.字段标识]"
+        v-else-if="model.数据类型 === '布尔值'"
+        v-model="formModel[model.字段标识]"
       />
       <el-input-number
-        v-else-if="module.数据类型 === '数字'"
-        v-model="formModel[module.字段标识]"
-        :precision="module['小数位数'] || 0"
-        :min="module['最小值']"
-        :max="module['最大值']"
+        v-else-if="model.数据类型 === '数字'"
+        v-model="formModel[model.字段标识]"
+        :precision="model.小数位数 || 0"
+        :min="model.最小值"
+        :max="model.最大值"
       />
-      <template v-else-if="module.数据类型 === '枚举'">
+      <template v-else-if="model.数据类型 === '枚举'">
         <el-select-v2
-          v-if="module.关联选项集.选项集.length > 5"
-          v-model="formModel[module.字段标识]"
+          v-if="model.关联选项集.选项集.length > 5"
+          v-model="formModel[model.字段标识]"
+          :options="model.关联选项集.选项集.map(x => ({label: x.选项标识, value: x.选项值}))"
+          :multiple="model.选择设置 === '多选'"
           placeholder="请选择"
-          :options="module.关联选项集.选项集.map(x => ({label: x.选项标识, value: x.选项值}))"
         />
-        <el-checkbox-group v-else-if="module.选择设置 === '多选'" v-model="formModel[module.字段标识]">
-          <el-checkbox v-for="(item) in module.关联选项集.选项集"
+        <el-checkbox-group v-else-if="model.选择设置 === '多选'" v-model="formModel[model.字段标识]">
+          <el-checkbox v-for="(item) in model.关联选项集.选项集"
             :key="item.选项值"
             :label="item.选项值"
           >
             {{ item.选项标识 }}
           </el-checkbox>
         </el-checkbox-group>
-        <el-radio-group v-else v-model="formModel[module.字段标识]">
-          <el-radio v-for="(item) in module.关联选项集.选项集"
+        <el-radio-group v-else v-model="formModel[model.字段标识]">
+          <el-radio v-for="(item) in model.关联选项集.选项集"
             :key="item.选项值"
             :label="item.选项值"
           >
@@ -238,18 +239,18 @@ watch(() => props.model, (newVal: Ref) => {
           <el-radio label="1">Option 1</el-radio>
         </el-radio-group>
       </template>
-      <template v-else-if="module.数据类型 === '日期时间'">
+      <template v-else-if="model.数据类型 === '日期时间'">
         <el-time-picker
-          v-if="module.格式 === '时间'"
-          v-model="formModel[module.字段标识]"
-          :default-value="module.默认值"
+          v-if="model.格式 === '时间'"
+          v-model="formModel[model.字段标识]"
+          :default-value="model.默认值"
           placeholder="请选择"
         />
         <el-date-picker
           v-else
-          v-model="formModel[module.字段标识]"
-          :type="datePickerTypeMap[module.格式]"
-          :default-time="module.默认值"
+          v-model="formModel[model.字段标识]"
+          :type="datePickerTypeMap[model.格式]"
+          :default-time="model.默认值"
           placeholder="请选择"
         />
       </template>
