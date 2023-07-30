@@ -138,24 +138,24 @@ const props = defineProps({
   }
 })
 const emit = defineEmits(['submit', 'query', 'reset'])
-const ruleFormRef = ref<FormInstance>()
 const { defaultModel, defaultRules } = getModelAndRules(props.modelList)
-const ruleForm = reactive(toRaw(props.model) || defaultModel)
-const ruleRules = reactive<FormRules>(defaultRules)
+const formRef = ref<FormInstance>()
+const formModel = reactive(toRaw(props.model) || defaultModel)
+const formRules = reactive<FormRules>(defaultRules)
 const handleSubmit = async () => {
-  if (!ruleFormRef.value) return
+  if (!formRef.value) return
 
-  const valid = await ruleFormRef.value.validate()
+  const valid = await formRef.value.validate()
 
   if (valid) {
     // console.log('submit!')
-    emit('submit', ruleForm)
+    emit('submit', formModel)
   }
 }
 const handleReset = () => {
-  if (!ruleFormRef.value) return
+  if (!formRef.value) return
 
-  ruleFormRef.value?.resetFields()
+  formRef.value?.resetFields()
   emit('reset')
 }
 
@@ -164,7 +164,7 @@ watch(() => props.model, (newVal: Ref) => {
   const val = toRaw(newVal.value)
   // console.log('a', a)
   Object.keys(val).forEach(key => {
-    ruleForm[key] = val[key]
+    formModel[key] = val[key]
   })
 }, {deep: true});
 
@@ -172,9 +172,9 @@ watch(() => props.model, (newVal: Ref) => {
 <template>
   <el-pro-form
     v-if="type === 'form'"
-    ref="ruleFormRef"
-    :model="ruleForm"
-    :rules="ruleRules"
+    ref="formRef"
+    :model="formModel"
+    :rules="formRules"
     label-width="120px"
   >
     <el-form-item
@@ -185,18 +185,18 @@ watch(() => props.model, (newVal: Ref) => {
     >
       <el-input
         v-if="['文本', '邮箱', '电话', '网址'].includes(module.数据类型)"
-        v-model="ruleForm[module.字段标识]"
+        v-model="formModel[module.字段标识]"
         :type="'格式' in module && module.格式 === '多行文本' ? 'textarea' : 'text'"
         :maxlength="module['最大长度']"
         show-word-limit
       />
       <el-switch
         v-if="module.数据类型 === '布尔值'"
-        v-model="ruleForm[module.字段标识]"
+        v-model="formModel[module.字段标识]"
       />
       <el-input-number
         v-if="module.数据类型 === '数字'"
-        v-model="ruleForm[module.字段标识]"
+        v-model="formModel[module.字段标识]"
         :precision="module['小数位数'] || 0"
         :min="module['最小值']"
         :max="module['最大值']"
@@ -211,10 +211,10 @@ watch(() => props.model, (newVal: Ref) => {
   </el-pro-form>
   <el-pro-query
     v-if="type === 'query'"
-    ref="ruleFormRef"
-    :model="ruleForm"
+    ref="formRef"
+    :model="formModel"
     label-width="120px"
-    @query="emit('query', ruleForm)"
+    @query="emit('query', formModel)"
     @reset="emit('reset')"
   >
     <el-form-item
@@ -225,18 +225,18 @@ watch(() => props.model, (newVal: Ref) => {
     >
       <el-input
         v-if="['文本', '邮箱', '电话', '网址'].includes(module.数据类型)"
-        v-model="ruleForm[module.字段标识]"
+        v-model="formModel[module.字段标识]"
         :type="'格式' in module && module.格式 === '多行文本' ? 'textarea' : 'text'"
         :maxlength="module['最大长度']"
         show-word-limit
       />
       <el-switch
         v-if="module.数据类型 === '布尔值'"
-        v-model="ruleForm[module.字段标识]"
+        v-model="formModel[module.字段标识]"
       />
       <el-input-number
         v-if="module.数据类型 === '数字'"
-        v-model="ruleForm[module.字段标识]"
+        v-model="formModel[module.字段标识]"
         :precision="module['小数位数'] || 0"
         :min="module['最小值']"
         :max="module['最大值']"
