@@ -9,7 +9,7 @@ export const modelList = [
     格式: '单行文本',
     // '最小长度': 0,
     最大长度: 30,
-    // 默认值?: string
+    默认值: 'hello world'
   },
   {
     字段名称: '多行文本',

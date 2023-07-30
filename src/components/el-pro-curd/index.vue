@@ -4,22 +4,22 @@ export default {
 }
 </script>
 <script lang="ts" setup>
-import { ref, reactive, PropType } from "vue";
+import { ref, reactive, PropType, toRaw, watch, Ref } from "vue";
 import type { FormInstance, FormRules } from 'element-plus'
 import ElProForm from '../el-pro-form'
 import ElProQuery from '../el-pro-query'
-import type { ModelItem } from '../../model/index'
+import type { ModelItem } from './model/index'
 
 export type Type = 'list' | 'form' | 'query'
 
 const getModelAndRules = (modelList: ModelItem[] = []) => {
   const defaultModel = {}
-  const rules = {}
+  const defaultRules = {}
 
   modelList.forEach(module => {
     defaultModel[module.字段标识] = '默认值' in module ? module.默认值 : undefined
 
-    rules[module.字段标识] = []
+    defaultRules[module.字段标识] = []
 
     let type
 
@@ -40,21 +40,21 @@ const getModelAndRules = (modelList: ModelItem[] = []) => {
     }
 
     if (module.是否必填) {
-      rules[module.字段标识].push({
+      defaultRules[module.字段标识].push({
         required: true,
         message: `${module.字段名称}不能为空`,
       })
     }
 
     if (type) {
-      rules[module.字段标识].push({
+      defaultRules[module.字段标识].push({
         type,
         message: `${module.字段名称}必须是${module.数据类型}格式`,
       })
     }
 
     if (pattern) {
-      rules[module.字段标识].push({
+      defaultRules[module.字段标识].push({
         pattern,
         message: `${module.字段名称}必须是${module.数据类型}格式`,
       })
@@ -120,11 +120,11 @@ const getModelAndRules = (modelList: ModelItem[] = []) => {
 
   return {
     defaultModel,
-    rules
+    defaultRules
   }
 }
 const props = defineProps({
-  data: {
+  model: {
     type: [Object, Array],
     default: null
   },
@@ -139,9 +139,9 @@ const props = defineProps({
 })
 const emit = defineEmits(['submit', 'query', 'reset'])
 const ruleFormRef = ref<FormInstance>()
-const { defaultModel, rules } = getModelAndRules(props.modelList)
-const ruleForm = reactive(props.data || defaultModel)
-const ruleRules = reactive<FormRules>(rules)
+const { defaultModel, defaultRules } = getModelAndRules(props.modelList)
+const ruleForm = reactive(toRaw(props.model) || defaultModel)
+const ruleRules = reactive<FormRules>(defaultRules)
 const handleSubmit = async () => {
   if (!ruleFormRef.value) return
 
@@ -158,6 +158,16 @@ const handleReset = () => {
   ruleFormRef.value?.resetFields()
   emit('reset')
 }
+
+// 如果接口请求完毕，重新更新
+watch(() => props.model, (newVal: Ref) => {
+  const val = toRaw(newVal.value)
+  // console.log('a', a)
+  Object.keys(val).forEach(key => {
+    ruleForm[key] = val[key]
+  })
+}, {deep: true});
+
 </script>
 <template>
   <el-pro-form
