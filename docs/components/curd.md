@@ -2,6 +2,8 @@
 
 一次数据定义，适用于表单、查询、详情、列表等场景。
 
+## 定义
+
 ```ts
 const options = Array.from({ length: 10000 }).map((_, idx) => ({
   选项值: `${idx + 1}`,
