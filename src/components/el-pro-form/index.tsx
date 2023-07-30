@@ -19,6 +19,7 @@ import { ElForm, ElCol } from "element-plus";
 import Item from './item'
 import type { FormInstance, FormRules } from 'element-plus'
 import "./index.css";
+import { getChildren, extractChildren } from "../../utils"
 
 // false 不分栏
 // true 子根据父宽度自动分栏
@@ -62,56 +63,6 @@ function useCol(col: Col, elProForm: Ref, emit: (event: 'col', ...args: any[]) =
   }
 }
 
-function getChildren(children: any) {
-  if ((children.children ?? []).length === 0) return []
-
-  if (Array.isArray(children.children)) {
-    return children.children
-  }
-
-  return [children.children]
-}
-
-export function isArray<T>(val: unknown): val is Array<T> {
-  return Array.isArray(val)
-}
-
-
-export function isFragment(node: VNode): boolean
-export function isFragment(node: unknown): node is VNode
-export function isFragment(node: unknown): node is VNode {
-  return isVNode(node) && node.type === Fragment
-}
-
-export function isText(node: VNode): boolean
-export function isText(node: unknown): node is VNode
-export function isText(node: unknown): node is VNode {
-  return isVNode(node) && node.type === Text
-}
-
-export function isComment(node: VNode): boolean
-export function isComment(node: unknown): node is VNode
-export function isComment(node: unknown): node is VNode {
-  return isVNode(node) && node.type === Comment
-}
-
-const TEMPLATE = 'template'
-export function isTemplate(node: VNode): boolean
-export function isTemplate(node: unknown): node is VNode
-export function isTemplate(node: unknown): node is VNode {
-  return isVNode(node) && node.type === TEMPLATE
-}
-
-/**
- * determine if the element is a valid element type rather than fragments and comment e.g. <template> v-if
- * @param node {VNode} node to be tested
- */
-export function isValidElementNode(node: VNode): boolean
-export function isValidElementNode(node: unknown): node is VNode
-export function isValidElementNode(node: unknown): node is VNode {
-  return isVNode(node) && !isFragment(node) && !isComment(node)
-}
-
 export default defineComponent({
   name: 'ElProForm',
   props: {
@@ -143,64 +94,11 @@ export default defineComponent({
       resetFields
     });
 
-    // retrieve the children out via a simple for loop
-    // the edge case here is that when users uses directives like <v-for>, <v-if>
-    // we need to go deeper until the child is not the Fragment type
-    function extractChildren(
-      children: VNodeArrayChildren,
-      parentKey = '',
-      extractedChildren: VNode[] = []
-    ) {
-      children.forEach((child, loopKey) => {
-        if (isFragment(child)) {
-          if (isArray(child.children)) {
-            child.children.forEach((nested, key) => {
-              if (isFragment(nested) && isArray(nested.children)) {
-                extractChildren(
-                  nested.children,
-                  `${parentKey + key}-`,
-                  extractedChildren
-                )
-              } else {
-                extractedChildren.push(
-                  createVNode(
-                    Item,
-                    {
-                      span: (nested?.props?.col ?? defaultCol.value) * 2,
-                      key: `nested-${parentKey + key}`,
-                    },
-                    {
-                      default: () => [nested],
-                    },
-                  )
-                )
-              }
-            })
-          }
-          // if the current child is valid vnode, then append this current vnode
-          // to item as child node.
-        } else if (isValidElementNode(child)) {
-          extractedChildren.push(
-            createVNode(
-              Item,
-              {
-                span: (child?.props?.col ?? defaultCol.value) * 2,
-                key: `LoopKey${parentKey + loopKey}`,
-              },
-              {
-                default: () => [child],
-              },
-            )
-          )
-        }
-      })
-
-      return extractedChildren
-    }
-
     return () => {
       const children = getChildren(renderSlot(slots, 'default', { key: 0 }, () => []))
-      const extractChild = extractChildren(children)
+      const extractChild = extractChildren(children, Item, (x) => ({
+        span: (x?.props?.col ?? defaultCol.value) * 2,
+      }))
 
       return <ElForm ref={elProForm} {...attrs} class="el-pro-form">
         {extractChild}

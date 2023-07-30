@@ -29,6 +29,7 @@ import {
   Setting,
 } from "@element-plus/icons-vue";
 import Sortablejs from "sortablejs";
+import { getChildren } from "../../utils"
 import "./index.css";
 
 export type Key = number | string;
@@ -84,16 +85,6 @@ export interface Fixed {
   footer?: boolean;
   onFooterFixed?: () => void;
   onFooterUnfixed?: () => void;
-}
-
-function getChildren(children: any) {
-  if ((children.children ?? []).length === 0) return []
-
-  if (Array.isArray(children.children)) {
-    return children.children
-  }
-
-  return [children.children]
 }
 
 function useCheckbox(rowSelection: RowSelection, dataSource: Ref<Data[]>) {

@@ -11,23 +11,13 @@ import ElProForm from '../el-pro-form'
 import { ElForm, ElButton, ElIcon } from "element-plus";
 import type { FormInstance, FormRules } from 'element-plus'
 import { ArrowDown } from "@element-plus/icons-vue";
+import { getChildren } from "../../utils"
 import "./index.css";
 
 // false 不分栏
 // true 子根据父宽度自动分栏
 // number 设置指定的栏目
 export type Col = boolean | number
-
-function getChildren(children: any) {
-  if ((children.children ?? []).length === 0) return []
-
-  if (Array.isArray(children.children)) {
-    return children.children
-  }
-
-  return [children.children]
-}
-
 
 export default defineComponent({
   name: 'ElProQuery',

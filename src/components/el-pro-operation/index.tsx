@@ -3,6 +3,7 @@ import { ElDropdown, ElIcon, ElDropdownMenu, ElDropdownItem } from "element-plus
 import {
   ArrowDown
 } from "@element-plus/icons-vue";
+import { getChildren } from "../../utils"
 
 import './index.css';
 
@@ -14,16 +15,6 @@ function useParentWidth(elProOperation: Ref) {
   })
 
   return parentWidth
-}
-
-function getChildren(children: any) {
-  if ((children.children ?? []).length === 0) return []
-
-  if (Array.isArray(children.children)) {
-    return children.children
-  }
-
-  return [children.children]
 }
 
 function getLeftNodeAndRightNode(children: any, parentWidth: Ref, showRight: Ref) {
