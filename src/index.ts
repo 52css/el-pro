@@ -1,10 +1,13 @@
-import ElProButton from './components/el-pro-button'
-import ElProCurd from './components/el-pro-curd/index.vue'
-import ElProForm from './components/el-pro-form'
-import ElProOperation from './components/el-pro-operation'
-import ElProQuery from './components/el-pro-query'
-import ElProStatus from './components/el-pro-status'
-import ElProTable from './components/el-pro-table'
+import type { App } from 'vue';
+import {
+  ElProButton,
+  ElProCurd,
+  ElProForm,
+  ElProOperation,
+  ElProQuery,
+  ElProStatus,
+  ElProTable,
+} from "./components";
 
 const components = [
   ElProButton,
@@ -16,11 +19,20 @@ const components = [
   ElProTable,
 ]
 
-const install = function (Vue) {
-  components.forEach((component) => {
-    Vue.component(component.name, component)
-  })
-}
 export default {
-  install,
-}
+  install: (app: App) => {
+    components.forEach(component => {
+      app.component(component.name, component);
+    })
+  }
+};
+
+export {
+  ElProButton,
+  ElProCurd,
+  ElProForm,
+  ElProOperation,
+  ElProQuery,
+  ElProStatus,
+  ElProTable,
+};

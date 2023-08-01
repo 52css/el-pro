@@ -119,10 +119,10 @@ const datePickerTypeMap = {
 }
 
 // 如果接口请求完毕，重新更新
-watch(() => props.model, (newVal: Ref) => {
+watch(props.model, (newVal: any) => {
   // 数组是表格
   if (Array.isArray(newVal.value)) {
-    newVal.value.forEach((item, index) => {
+    newVal.value.forEach((item: any, index: number) => {
       curdModel[index] = item
     });
   } else {

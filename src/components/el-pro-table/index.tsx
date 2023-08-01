@@ -381,7 +381,7 @@ function useSetting(toolbar: Toolbar) {
 }
 
 function useFixed(fixed: Fixed = {}, elProTable: Ref) {
-  const getScrollElement = (node:any) => {
+  const getScrollElement:any = (node:any) => {
     if (node == null) {
       return window;
     }
