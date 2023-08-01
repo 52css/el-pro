@@ -30,7 +30,7 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: 'src/index.ts',
-      name: 'el-pro',
+      name: 'ElPro',
       formats: ['es', 'cjs', 'umd'],
       fileName: (format) => `index.${format}.js`,
     },
