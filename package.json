@@ -1,23 +1,11 @@
 {
   "name": "@52css/el-pro",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "type": "module",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/el-pro.umd.js",
-  "module": "./dist/el-pro.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/el-pro.es.js",
-      "require": "./dist/el-pro.umd.js"
-    },
-    "./dist/el-pro.css": {
-      "import": "./dist/el-pro.css",
-      "require": "./dist/el-pro.css"
-    }
-  },
-  "types": "./dist/main.d.ts",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
+  "unpkg": "dist/index.min.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
     "docs:dev": "pnpm run register:components && vitepress dev docs --open",

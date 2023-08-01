@@ -29,10 +29,10 @@ export default defineConfig({
     cssCodeSplit: true,
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: 'src/components/el-pro.ts',
+      entry: 'src/index.ts',
       name: 'el-pro',
       formats: ['es', 'cjs', 'umd'],
-      fileName: (format) => `el-pro.${format}.js`,
+      fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
@@ -43,7 +43,7 @@ export default defineConfig({
       external: ['vue', 'element-plus', 'sortablejs', '@element-plus/icons-vue'],
       output: {
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'main.css') return 'el-pro.css'
+          if (assetInfo.name === 'index.css') return 'index.min.css'
           return assetInfo.name
         },
         exports: 'named',
