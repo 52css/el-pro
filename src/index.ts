@@ -1,7 +1,7 @@
 import type { App } from 'vue';
 import {
   ElProButton,
-  ElProCurd,
+  // ElProCurd,
   ElProForm,
   ElProOperation,
   ElProQuery,
@@ -11,7 +11,7 @@ import {
 
 const components = [
   ElProButton,
-  ElProCurd,
+  // ElProCurd,
   ElProForm,
   ElProOperation,
   ElProQuery,
@@ -29,7 +29,7 @@ export default {
 
 export {
   ElProButton,
-  ElProCurd,
+  // ElProCurd,
   ElProForm,
   ElProOperation,
   ElProQuery,
