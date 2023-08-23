@@ -10,11 +10,21 @@ import ElProQuery from '../../../src/components/el-pro-query/index.tsx'
 import ElProTable from '../../../src/components/el-pro-table/index.tsx'
 import ElProOperation from '../../../src/components/el-pro-operation/index.tsx'
 import ElProStatus from '../../../src/components/el-pro-status/index.tsx'
+import ElProAvatar from '../../../src/components/el-pro-avatar/index.tsx'
 
 import ElProCurd from '../../../src/components/el-pro-curd/index.vue'
 import '../../../src/styles/index.css'
 
-const components = [ElProButton, ElProForm, ElProQuery, ElProTable, ElProOperation, ElProStatus, ElProCurd]
+const components = [
+  ElProButton,
+  ElProForm,
+  ElProQuery,
+  ElProTable,
+  ElProOperation,
+  ElProStatus,
+  ElProAvatar,
+  ElProCurd
+]
 
 export default {
   ...DefaultTheme,

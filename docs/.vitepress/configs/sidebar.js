@@ -48,6 +48,10 @@ function getComponentsSidebar() {
           text: 'Status 状态',
           link: '/components/status',
         },
+        {
+          text: 'Avatar 头像',
+          link: '/components/avatar',
+        },
       ],
     },
     {
