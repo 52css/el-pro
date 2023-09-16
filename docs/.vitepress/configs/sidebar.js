@@ -75,6 +75,10 @@ function getGuideSidebar() {
           text: '安装',
           link: '/guide/',
         },
+        {
+          text: '组合',
+          link: '/hooks/',
+        },
       ],
     },
   ]
