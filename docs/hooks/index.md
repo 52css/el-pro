@@ -9,7 +9,7 @@
 :::demo
 
 ```vue
-<script lang="ts" setup>
+<script lang="ts">
 // 1. 导入放最前面
 import { ref, computed, watch } from 'vue'
 // 正常是import进来的请求，这里为了演示，写成promise
@@ -18,16 +18,8 @@ const userInfoApi = (timer: number) =>
 const userSchoolListApi = (timer: number) =>
   new Promise((resolve) => setTimeout(resolve, timer));
 
-// 2. 页面定义，都写到这个区域
-const [userInfo, setUserInfo] = useUserInfo();
-const doubleAge = useDoubleAge(userInfo);
-const userSchoolList = useUserSchoolList(userInfo);
-
-// 3. 公用函数都定义到下面
-/**
- * 获取用户信息
- */
-function useUserInfo() {
+// 2. 公用函数都定义到下面
+export function useUserInfo() {
   const userInfo = ref();
   const setUserInfo = () => {
     userInfo.value = null;
@@ -44,18 +36,11 @@ function useUserInfo() {
 
   return [userInfo, setUserInfo];
 }
-/**
- * 再次请求, 页面上事件用on开头, 并且写成function方式
- */
-function onReload() {
-  setUserInfo();
-}
-
-function useDoubleAge(userInfo) {
+export function useDoubleAge(userInfo) {
   return computed(() => (userInfo.value?.age || 0) * 2)
 }
 
-function useUserSchoolList(userInfo) {
+export function useUserSchoolList(userInfo) {
   const schoolList = ref();
   const setSchoolList = () => {
     userSchoolListApi(1000).then((res) => {
@@ -80,6 +65,15 @@ function useUserSchoolList(userInfo) {
   })
 
   return schoolList;
+}
+</script>
+<script lang="ts" setup>
+// 3. 页面方法都放到这里
+const [userInfo, setUserInfo] = useUserInfo();
+const doubleAge = useDoubleAge(userInfo);
+const userSchoolList = useUserSchoolList(userInfo);
+const onReload = () => {
+  setUserInfo();
 }
 </script>
 <template>
