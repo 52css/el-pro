@@ -76,7 +76,7 @@ function getGuideSidebar() {
           link: '/guide/',
         },
         {
-          text: '组合',
+          text: '优雅写hooks',
           link: '/hooks/',
         },
       ],

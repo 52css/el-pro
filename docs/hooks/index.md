@@ -1,15 +1,14 @@
-# Hooks 组合API
+# 优雅写hooks
 
-## 优雅写hooks
+## 1. script标签
 
-### script标签
+* 引用、页面hooks放这里
 
-* 导入放最前面
-* 页面定义，都是一行代码
+## 2. script下的setup标签
 
-## script下的setup标签（init）
+* 页面变量、方法放这里
 
-* 页面公用方法，事件都定义到setup中
+## 查看示例
 
 :::demo
 
