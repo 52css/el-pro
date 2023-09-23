@@ -79,6 +79,10 @@ function getGuideSidebar() {
           text: '优雅写hooks',
           link: '/hooks/',
         },
+        {
+          text: '搭vue框架',
+          link: '/vue/',
+        },
       ],
     },
   ]
