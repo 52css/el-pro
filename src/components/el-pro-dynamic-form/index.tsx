@@ -38,7 +38,7 @@ const ElProDynamicForm = defineComponent({
         <>
           <ElFormItem
             label={props.formState.payload.label}
-            >
+          >
             {props.formState.type === 'input' && (
               <ElInput v-model={props.formState.payload.value} />
             )}

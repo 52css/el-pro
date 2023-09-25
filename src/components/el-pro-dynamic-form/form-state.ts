@@ -4,6 +4,7 @@ const item1 = createFormItem(
   'input',
   {
     label: 'test1',
+    prop: 'test1',
     value: '',
   },
   (current) => (current.payload.value === 'test1' ? item2 : item3)
@@ -12,6 +13,7 @@ const item2 = createFormItem(
   'select',
   {
     label: 'test2',
+    prop: 'test2',
     options: [
       {
         label: 'test2-1',
@@ -41,6 +43,7 @@ const item3 = createFormItem(
   'checkbox',
   {
     label: 'test3',
+    prop: 'test3',
     options: [
       {
         label: 'test3-1',
@@ -63,6 +66,7 @@ const item3 = createFormItem(
 )
 const item4 = createFormItem('radio', {
   label: 'test4',
+  prop: 'test4',
   options: [
     {
       label: 'test4-1',
