@@ -2,7 +2,7 @@ import { defineComponent, h, renderSlot } from 'vue'
 import { ElCol } from 'element-plus'
 
 const ElProFormItem = defineComponent({
-  name: 'ElProFormItem',
+  // name: 'ElProFormItem',
 
   props: {
     span: {

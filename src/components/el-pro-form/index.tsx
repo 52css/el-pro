@@ -16,7 +16,7 @@ import {
   Fragment,
 } from "vue";
 import { ElForm, ElCol } from "element-plus";
-import Item from './item'
+import FormItem from './form-item'
 import type { FormInstance, FormRules } from 'element-plus'
 import "./index.css";
 import { getChildren, extractChildren } from "../../utils"
@@ -73,34 +73,27 @@ export default defineComponent({
   },
   emits: ['col'],
   setup(props, { slots, attrs, expose, emit }) {
-    const elProForm = ref<FormInstance>();
-    const { defaultCol } = useCol(props.col, elProForm, emit)
+    const inp = ref<FormInstance>();
+    const { defaultCol } = useCol(props.col, inp, emit)
+    const method: {[key: string]: () => void} = {}
 
-    // 表单校验
-    const validate = async (fn: any) => {
-      if (!elProForm.value) return;
-      return await elProForm.value.validate(fn);
-    };
+    onMounted(() => {
 
-    // 表单重置
-    const resetFields = () => {
-      if (!elProForm.value) return;
-      elProForm.value.resetFields();
-    };
+      for (const key in inp.value) {
+        method[key] = inp.value[key as string]
+      }
+    });
 
     // 暴漏方法
-    expose({
-      validate,
-      resetFields
-    });
+    expose(method);
 
     return () => {
       const children = getChildren(renderSlot(slots, 'default', { key: 0 }, () => []))
-      const extractChild = extractChildren(children, Item, (x) => ({
+      const extractChild = extractChildren(children, FormItem, (x) => ({
         span: (x?.props?.col ?? defaultCol.value) * 2,
       }))
 
-      return <ElForm ref={elProForm} {...attrs} class="el-pro-form">
+      return <ElForm ref={inp} {...attrs} class="el-pro-form">
         {extractChild}
       </ElForm>
     };
