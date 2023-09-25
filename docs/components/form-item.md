@@ -8,17 +8,28 @@
 
 ```vue
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import {createFormItem} from '../../src/components/el-pro-form-item/create-form-item.ts'
+import type { FormInstance, FormRules } from 'element-plus'
 
+const formModel = reactive({
+  test1: '',
+  test2: 'test2-1',
+  test3: ['test3-1', 'test3-2'],
+  test4: 'test4-1'
+})
 const item1 = createFormItem(
   'input',
   {
     label: 'test1',
     prop: 'test1',
-    value: '',
+    rules: [{
+      required: true,
+      message: 'domain can not be null',
+      trigger: 'blur',
+    }]
   },
-  (current) => (current.payload.value === 'test1' ? item2 : item3)
+  (current) => (formModel.test1 === 'test1' ? item2 : item3)
 )
 const item2 = createFormItem(
   'select',
@@ -39,12 +50,11 @@ const item2 = createFormItem(
         value: 'test2-3',
       },
     ],
-    value: 'test2-1',
   },
   (current) => {
-    if (current.payload.value === 'test2-2') {
+    if (formModel.test2 === 'test2-2') {
       return item3
-    } else if (current.payload.value === 'test2-3') {
+    } else if (formModel.test2 === 'test2-3') {
       return item4
     }
     return null
@@ -69,10 +79,9 @@ const item3 = createFormItem(
         value: 'test3-3',
       },
     ],
-    value: ['test3-1', 'test3-2'],
   },
   (current) => {
-    return current.payload.value.includes('test3-1') ? item4 : null
+    return formModel.test3.includes('test3-1') ? item4 : null
   }
 )
 const item4 = createFormItem('radio', {
@@ -92,46 +101,28 @@ const item4 = createFormItem('radio', {
       value: 'test4-3',
     },
   ],
-  value: 'test4-1',
 })
 let formState = item1;
-const ruleFormRef = ref()
-const submitForm = async () => {
-  const model = {};
-  let current = item1;
-  let prevFormState;
-
-  while(current) {
-    // console.log('current', current)
-    const {payload} = current
-    model[payload.prop] = payload.value
-
-    const acients = [];
-    prevFormState = current
-
-    acients.unshift(prevFormState);
-
-    while ((prevFormState = prevFormState.parent)) {
-      // console.log('prevFormState', prevFormState)
-      acients.unshift(prevFormState);
+const formRef = ref()
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      console.log('submit!', fields)
+    } else {
+      console.log('error submit!', fields)
     }
-
-    // console.log('acients', acients)
-
-    current = current.next(current, acients)
-
-    // console.log('current', current)
-  }
-
-  console.log('model', model)
-  // console.log('formState', formState)
+  })
 }
 </script>
 <template>
-  <el-pro-form>
-    <el-pro-form-item :form-state="formState"/>
+  <el-pro-form ref="formRef" :model="formModel">
+    <el-form-item prop="test1" label="test1">
+      <el-input v-model="formModel.test1" />
+    </el-form-item>
+    <el-pro-form-item :form-state="formState" :form-model="formModel" />
     <el-form-item>
-      <el-button type="primary" @click="submitForm">
+      <el-button type="primary" @click="submitForm(formRef)">
         获取model
       </el-button>
     </el-form-item>

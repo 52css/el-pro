@@ -11,6 +11,10 @@ const ElProFormItem = defineComponent({
       type: Object as PropType<FormItem>,
       default: null
     },
+    formModel: {
+      type: Object,
+      default: () => ({})
+    }
   },
 
   setup(props) {
@@ -34,31 +38,35 @@ const ElProFormItem = defineComponent({
     }
 
     return () => {
+      console.log('props.formModel', props.formModel)
       return  props.formState && (
         <>
           <ElFormItem
             label={props.formState.payload.label}
+            required={props.formState.payload.required}
+            prop={props.formState.payload.prop}
+            rules={props.formState.payload.rules}
           >
             {props.formState.type === 'input' && (
-              <ElInput v-model={props.formState.payload.value} />
+              <ElInput v-model={props.formModel[props.formState.payload.prop]} />
             )}
             {props.formState.type === 'checkbox' && (
-              <ElCheckboxGroup v-model={props.formState.payload.value}>
+              <ElCheckboxGroup v-model={props.formModel[props.formState.payload.prop]}>
                 {props.formState.payload.options.map(x => <ElCheckbox label={x.value}>{x.label}</ElCheckbox>)}
               </ElCheckboxGroup>
             )}
             {props.formState.type === 'radio' && (
-              <ElRadioGroup v-model={props.formState.payload.value}>
+              <ElRadioGroup v-model={props.formModel[props.formState.payload.prop]}>
                 {props.formState.payload.options.map(x => <ElRadio label={x.value}>{x.label}</ElRadio>)}
               </ElRadioGroup>
             )}
             {props.formState.type === 'select' && (
-              <ElSelect v-model={props.formState.payload.value}>
+              <ElSelect v-model={props.formModel[props.formState.payload.prop]}>
                 {props.formState.payload.options.map(x => <ElOption label={x.label} value={x.value}></ElOption>)}
               </ElSelect>
             )}
           </ElFormItem>
-          <ElProFormItem form-state={getNext()} />
+          <ElProFormItem form-state={getNext()} form-model={props.formModel} />
         </>
       )
     }
