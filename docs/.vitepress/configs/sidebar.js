@@ -53,8 +53,8 @@ function getComponentsSidebar() {
           link: '/components/avatar',
         },
         {
-          text: 'DynamicForm 动态表单',
-          link: '/components/dynamic-form',
+          text: 'FormItem 动态表单',
+          link: '/components/form-item',
         },
       ],
     },

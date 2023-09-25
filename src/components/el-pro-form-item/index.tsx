@@ -1,10 +1,10 @@
 import { ElCheckbox, ElCheckboxGroup, ElFormItem, ElInput, ElRadioGroup, ElRadio, ElSelect, ElOption } from 'element-plus';
-import { FormItem } from './form-item'
+import { FormItem } from './create-form-item'
 import { defineComponent, PropType } from 'vue'
 
 
-const ElProDynamicForm = defineComponent({
-  name: 'ElProDynamicForm',
+const ElProFormItem = defineComponent({
+  name: 'ElProFormItem',
 
   props: {
     formState: {
@@ -58,11 +58,11 @@ const ElProDynamicForm = defineComponent({
               </ElSelect>
             )}
           </ElFormItem>
-          <ElProDynamicForm form-state={getNext()} />
+          <ElProFormItem form-state={getNext()} />
         </>
       )
     }
   },
 })
 
-export default ElProDynamicForm
+export default ElProFormItem

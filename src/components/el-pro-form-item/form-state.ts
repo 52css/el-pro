@@ -1,4 +1,4 @@
-import { createFormItem } from './form-item'
+import { createFormItem } from './create-form-item'
 
 const item1 = createFormItem(
   'input',
