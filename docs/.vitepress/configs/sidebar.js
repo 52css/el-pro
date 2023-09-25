@@ -52,6 +52,10 @@ function getComponentsSidebar() {
           text: 'Avatar 头像',
           link: '/components/avatar',
         },
+        {
+          text: 'DynamicForm 动态表单',
+          link: '/components/dynamic-form',
+        },
       ],
     },
     {

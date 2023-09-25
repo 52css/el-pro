@@ -11,6 +11,7 @@ import ElProTable from '../../../src/components/el-pro-table/index.tsx'
 import ElProOperation from '../../../src/components/el-pro-operation/index.tsx'
 import ElProStatus from '../../../src/components/el-pro-status/index.tsx'
 import ElProAvatar from '../../../src/components/el-pro-avatar/index.tsx'
+import ElProDynamicForm from '../../../src/components/el-pro-dynamic-form/index.tsx'
 
 import ElProCurd from '../../../src/components/el-pro-curd/index.vue'
 import '../../../src/styles/index.css'
@@ -23,7 +24,8 @@ const components = [
   ElProOperation,
   ElProStatus,
   ElProAvatar,
-  ElProCurd
+  ElProCurd,
+  ElProDynamicForm
 ]
 
 export default {
