@@ -53,7 +53,7 @@ function getComponentsSidebar() {
           link: '/components/avatar',
         },
         {
-          text: 'FormItem 动态表单',
+          text: 'FormItem 表单项',
           link: '/components/form-item',
         },
       ],

@@ -330,14 +330,7 @@ export type ResetFieldsFn = (props?: Arrayable<FormItemProp> | undefined) => voi
 
 | Name | Description | Type    |
 |------|-------------|---------|
-| col  | 设置col值   | `ColFn` |
-
-### Form Exposes
-
-| Name        | Description                                                | Type            |
-|-------------|------------------------------------------------------------|-----------------|
-| validate    | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 | `ValidateFn`    |
-| resetFields | 重置该表单项，将其值重置为初始值，并移除校验结果             | `ResetFieldsFn` |
+| onCol  | 设置col值   | `ColFn` |
 
 ### ElFormItem Attributes
 
@@ -345,3 +338,6 @@ export type ResetFieldsFn = (props?: Arrayable<FormItemProp> | undefined) => voi
 |------|----------|-------|--------|--------|
 | col  | 设置分栏目 | `Col` | —      | false  |
 
+### Form Exposes
+
+同 `el-form` 的 `exposes`
