@@ -330,7 +330,7 @@ export type ResetFieldsFn = (props?: Arrayable<FormItemProp> | undefined) => voi
 
 | Name | Description | Type    |
 |------|-------------|---------|
-| onCol  | 设置col值   | `ColFn` |
+| col  | 设置col值   | `ColFn` |
 
 ### ElFormItem Attributes
 
