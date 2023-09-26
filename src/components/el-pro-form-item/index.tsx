@@ -38,7 +38,6 @@ const ElProFormItem = defineComponent({
     }
 
     return () => {
-      console.log('props.formModel', props.formModel)
       return  props.formState && (
         <>
           <ElFormItem

@@ -117,9 +117,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 </script>
 <template>
   <el-pro-form ref="formRef" :model="formModel">
-    <el-form-item prop="test1" label="test1">
-      <el-input v-model="formModel.test1" />
-    </el-form-item>
     <el-pro-form-item :form-state="formState" :form-model="formModel" />
     <el-form-item>
       <el-button type="primary" @click="submitForm(formRef)">
