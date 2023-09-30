@@ -33,6 +33,10 @@ function getComponentsSidebar() {
           link: '/components/form',
         },
         {
+          text: 'FormItem 表单项',
+          link: '/components/form-item',
+        },
+        {
           text: 'Query 查询',
           link: '/components/query',
         },
@@ -51,10 +55,6 @@ function getComponentsSidebar() {
         {
           text: 'Avatar 头像',
           link: '/components/avatar',
-        },
-        {
-          text: 'FormItem 表单项',
-          link: '/components/form-item',
         },
       ],
     },

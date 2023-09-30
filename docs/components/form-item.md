@@ -29,7 +29,7 @@ const item1 = createFormItem(
       trigger: 'blur',
     }]
   },
-  (current) => (formModel.test1 === 'test1' ? item2 : item3)
+  (current) => (formModel[current.payload.prop] === 'test1' ? item2 : item3)
 )
 const item2 = createFormItem(
   'select',
@@ -52,9 +52,9 @@ const item2 = createFormItem(
     ],
   },
   (current) => {
-    if (formModel.test2 === 'test2-2') {
+    if (formModel[current.payload.prop] === 'test2-2') {
       return item3
-    } else if (formModel.test2 === 'test2-3') {
+    } else if (formModel[current.payload.prop] === 'test2-3') {
       return item4
     }
     return null
@@ -81,7 +81,7 @@ const item3 = createFormItem(
     ],
   },
   (current) => {
-    return formModel.test3.includes('test3-1') ? item4 : null
+    return formModel[current.payload.prop].includes('test3-1') ? item4 : null
   }
 )
 const item4 = createFormItem('radio', {
@@ -108,7 +108,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!', fields)
+      console.log('submit!', formModel)
     } else {
       console.log('error submit!', fields)
     }
