@@ -25,7 +25,7 @@ const item1 = createFormItem(
     prop: 'test1',
     rules: [{
       required: true,
-      message: 'domain can not be null',
+      message: 'test1不能为空',
       trigger: 'blur',
     }]
   },
@@ -104,11 +104,35 @@ const item4 = createFormItem('radio', {
 })
 let formState = item1;
 const formRef = ref()
+const getFormModel = (formState, formModel) =>  {
+  const model = {};
+  let current = formState;
+  let prevFormState;
+
+  while(current) {
+    const {payload} = current
+    model[payload.prop] = formModel[payload.prop]
+
+    const acients = [];
+    prevFormState = current
+
+    acients.unshift(prevFormState);
+
+    while ((prevFormState = prevFormState.parent)) {
+      acients.unshift(prevFormState);
+    }
+
+    current = current.next(current, acients)
+  }
+
+  return model;
+}
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!', formModel)
+      const model = getFormModel(formState, formModel)
+      console.log('submit!', model)
     } else {
       console.log('error submit!', fields)
     }
@@ -116,7 +140,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 }
 </script>
 <template>
-  <el-pro-form ref="formRef" :model="formModel">
+  <el-pro-form ref="formRef" :model="formModel" label-width="150px">
     <el-pro-form-item :form-state="formState" :form-model="formModel" />
     <el-form-item>
       <el-button type="primary" @click="submitForm(formRef)">
